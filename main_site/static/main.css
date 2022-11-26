@@ -193,10 +193,8 @@ nav > div {
 }
 
 /* .services-list {
-    margin: 0 auto; */
-    /* display: flex;
-    justify-items: baseline; */
-    /* max-width: 800px;
+    width: 100%;
+
 } */
 
 .service-wrap {
@@ -221,7 +219,7 @@ nav > div {
 }
 @media  (max-width: 1199.98px) {
     .service {
-        width: 90%;
+        width: 97%;
         height: auto;
         display: block;
     }

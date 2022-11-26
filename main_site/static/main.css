@@ -5,7 +5,7 @@
     text-align: justify;
 }
 @media  (max-width: 1199.98px) {
-    .footer {
+    .footer, .banner {
         text-align: left;
     }
 }
@@ -192,12 +192,12 @@ nav > div {
     color: white;
 }
 
-.services-list {
-    /* margin: 0 auto; */
+/* .services-list {
+    margin: 0 auto; */
     /* display: flex;
     justify-items: baseline; */
-    /* max-width: 800px; */
-}
+    /* max-width: 800px;
+} */
 
 .service-wrap {
     display: inline-block;
@@ -221,7 +221,7 @@ nav > div {
 }
 @media  (max-width: 1199.98px) {
     .service {
-        width: 100%;
+        width: 90%;
         height: auto;
         display: block;
     }

@@ -1,0 +1,64 @@
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <title>Стимул</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-wrapper">
+            <a href="/" class="logo">СТИМУЛ</a>
+            <!-- <img src="./media/logo.sv" alt="СТИМУЛ"> -->
+        </div>
+        <div class="nav-elems">
+            <ul class="menu">
+                <li class="nav-element">
+                    <a href="/">О компании</a>
+                </li></a>
+                <li class="nav-element">
+                    <a href="/services">Услуги</a>
+                </li>
+                <li class="nav-element">
+                    <a href="/contacts">Контакты</a>
+                </li>
+            </ul>
+        </div>
+        <div class="login"></div>
+    </nav>
+    <div class="banner">
+        <div class="company_name">
+            <span class="desktop">Общество с ограниченной ответственностью<br></span><span class="mobile">ООО</span> Центр ценообразования «Стимул»
+        </div>
+    </div>
+    <div class="content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <div class="footer">
+        <div class="footer-contact-list">        
+            <div class="footer-contact">
+                <div class="footer-contact-name">
+                    Телефон:
+                </div>
+                <div class="footer-contact-value">
+                    +7(4932)773576
+                </div>
+            </div>
+            
+            <div class="footer-contact">
+                <div class="footer-contact-name">
+                    email:
+                </div>
+                <div class="footer-contact-value">
+                    stimul37Iv@yandex.ru
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

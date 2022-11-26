@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Услуги и виды деятельности</h1>
+<div class="services-list">
+    {% for service in services %}
+    <div class="service-wrap">
+        <div class="service">
+            <div class="service-text">
+                {{ service }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

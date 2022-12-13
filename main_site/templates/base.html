@@ -1,5 +1,7 @@
 {% load static %}
+{% load custom_template_tags %}
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'main.css' %}">
     <title>Стимул</title>
 </head>
+
 <body>
     <nav>
         <div class="logo-wrapper">
@@ -17,12 +20,15 @@
             <ul class="menu">
                 <li class="nav-element">
                     <a href="/">О компании</a>
-                </li></a>
+                </li>
                 <li class="nav-element">
                     <a href="/services">Услуги</a>
                 </li>
                 <li class="nav-element">
                     <a href="/contacts">Контакты</a>
+                </li>
+                <li>
+                    <a onclick="showFeedback()" href="#">Обратная связь</a>
                 </li>
             </ul>
         </div>
@@ -30,7 +36,8 @@
     </nav>
     <div class="banner">
         <div class="company_name">
-            <span class="desktop">Общество с ограниченной ответственностью<br></span><span class="mobile">ООО</span> Центр ценообразования «Стимул»
+            <span class="desktop">Общество с ограниченной ответственностью<br></span><span class="mobile">ООО</span>
+            Центр ценообразования «Стимул»
         </div>
     </div>
     <div class="content">
@@ -39,7 +46,7 @@
         {% endblock %}
     </div>
     <div class="footer">
-        <div class="footer-contact-list">        
+        <div class="footer-contact-list">
             <div class="footer-contact">
                 <div class="footer-contact-name">
                     Телефон:
@@ -48,7 +55,7 @@
                     +7(4932)773576
                 </div>
             </div>
-            
+
             <div class="footer-contact">
                 <div class="footer-contact-name">
                     email:
@@ -57,8 +64,49 @@
                     stimul37Iv@yandex.ru
                 </div>
             </div>
-            
+
         </div>
     </div>
+    <div id="popup" class="popup hide">
+        <div class="popup_wrapper">
+            <div class="popup_content">
+                <h1>Оставьте свои контактные данные:</h1>
+                <h2 id="status" class="status hide"></h2>
+                <form id="feedbackData">
+                    {% csrf_token %}
+                    <p>
+                        <label for="id_fio">Имя:</label>
+                    </p>
+                    <p>
+                        <input name="fio" required="" id="id_fio"></textarea>
+                    </p>
+                    <p>
+                        <label for="id_firm_name">Название организации:</label>
+                    </p>
+                    <p>
+                        <input name="firm_name" required="" id="id_firm_name"></textarea>
+                    </p>
+                    <p>
+                        <label for="id_phone">Номер телефона:</label>
+                    </p>
+                    <p>
+                        <input name="phone" required="" id="id_phone"></textarea>
+                    </p>
+                    <p>
+                        <label for="id_email">Електронная почта:</label>
+                    </p>
+                    <p>
+                        <input type="email" name="email" maxlength="254" required="" id="id_email">
+                    </p>
+                    <p class="buttons_form">
+                        <button type="button" onclick="hideFeedback()" class="cancel">Закрыть</button>
+                        <button type="button" onclick="sendFeedback()" class="submit">Отправить</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" language="javascript" src="{% static 'popup_worker.js' %}"></script>
 </body>
+
 </html>

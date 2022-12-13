@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#i+ph(y#*w8@_%_m+9_^28&4g(j9!$6b%@7se*#*n8yi^1c^l@'
+SECRET_KEY = os.getenv("DJANGO_KEY", 
+    'django-insecure-#i+pr(y#*w8@_%_m+9_^28&4g(j9!$6b%@7se*#*n8yi^123d2'
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -104,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'Ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -122,3 +126,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = os.getenv("EMAIL_HOST", None)
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", None))
+EMAIL_HOST_USER = os.getenv("EMAIL_USER", None)
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", None)
+DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL", None)
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD", None)
+# SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True

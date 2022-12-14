@@ -129,7 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = os.getenv("EMAIL_HOST", None)
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", None))
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", 0))
 EMAIL_HOST_USER = os.getenv("EMAIL_USER", None)
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", None)
 DEFAULT_TO_EMAIL = os.getenv("DEFAULT_TO_EMAIL", None)

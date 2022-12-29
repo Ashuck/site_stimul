@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
 from main_site.forms import FeedBackForm
-from main_site.models import FeedbackContact
+from main_site.models import FeedbackContact, Suppliers
 from main_site.email_working import send_mail
 
 
@@ -52,6 +52,7 @@ def get_contact_page(request):
     }
     return render(request, 'contacts.html', context=contxt)
 
+
 @require_http_methods(["POST"])
 def take_contacts(request):
     form = FeedBackForm(request.POST)
@@ -68,3 +69,7 @@ def take_contacts(request):
         response_data["status"] = "error"
         response_data["msg"] = form.errors.as_text()
     return JsonResponse(response_data)
+
+
+def get_suppliers(request):
+    return render(request, 'suppliers.html')

@@ -9,7 +9,17 @@ from main_site.email_working import send_mail
 
 # Create your views here.
 def get_main_page(request):
-    return render(request, 'about.html')
+    partners = [
+        "/static/pic/partners/логотип цнэ.png",
+        "/static/pic/partners/логотип цп.png",
+        "/static/pic/partners/Логотип_ НИЦ ЭКСПЕРТИЗА_полиграфия.png",
+        "/static/pic/partners/РОП логотип.png",
+        "/static/pic/partners/СРО ИОС_логотип.png",
+    ]
+    contxt = {
+        "partners": partners
+    }
+    return render(request, 'about.html', contxt)
 
 
 def get_services_page(request):

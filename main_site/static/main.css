@@ -53,9 +53,12 @@ a {
 nav {
     display: flex;
     justify-content: space-between;
-    padding: 30px;
+    padding: 15px;
+    max-width: 1300px;
     vertical-align: middle;
     background-color: rgb(255, 255, 255);
+    margin: 0 auto;
+    margin-bottom: 40px;
 }
 @media  (max-width: 1199.98px) {
     nav {
@@ -77,8 +80,10 @@ nav > div {
 .logo {
     display: inline-block;
     font-size: 3em;
-    margin-left: 100px;
+    max-width: 250px;
+    /* margin-left: 100px; */
     height: 100%;
+    text-align: center;
 }
 @media  (max-width: 1199.98px) {
     .logo {
@@ -88,6 +93,9 @@ nav > div {
     }
 }
 
+.logo > span {
+    font-size: 0.4em;
+}
 
 .menu > li {
     display: inline-block;
@@ -130,8 +138,10 @@ nav > div {
     }
 }
 
+
+
 .content {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     padding-top: 20px;
     padding: 15px;
@@ -185,6 +195,31 @@ nav > div {
     
 } */
 
+.partners {
+    margin-bottom: 60px
+}
+
+@media  (max-width: 1199.98px) {
+    .partners {
+        display: none;
+    }
+}
+
+.partner_list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.partner {
+    width: 200px;
+}
+
+.partner > img {
+    max-height: 200px;
+    width: 100%;
+}
+
 .footer {
     display: table-row;
     margin-top: 40px;
@@ -194,14 +229,14 @@ nav > div {
     color: white;
 }
 
-/* .services-list {
-    width: 100%;
-
-} */
+.services-list {
+    max-width: 1000px;
+    margin: 0 auto;
+}
 
 .service-wrap {
     display: inline-block;
-    margin: 15px auto;
+    margin: 10px;
 }
 @media  (max-width: 1199.98px) {
     .service-wrap {

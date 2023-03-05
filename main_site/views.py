@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from json import loads
 
 from main_site.forms import FeedBackForm
 from main_site.models import FeedbackContact, Suppliers
 from main_site.email_working import send_mail
-
+from main_site.models import Services, Contacts
 
 # Create your views here.
 def get_main_page(request):
@@ -23,42 +25,15 @@ def get_main_page(request):
 
 
 def get_services_page(request):
-    services = """Разработка сметной документации
-        Расчет заработной платы рабочего 1 разряда, занятого в строительстве
-        Мониторинг цен строительных ресурсов, машин, оборудования и механизмов
-        Разработка конъюнктурного анализа цен для объектов капитального строительства
-        Консультации прохождения экспертизы проектной документации и результатов инженерных изысканий
-        Продажа/техническое сопровождение/ консультирование по программному обеспечению в сфере ценообразования в строительстве
-        Пересчет сметной стоимости по постановлению Правительства РФ № 1315
-        Контроль качества строительных материалов (Знак качества)
-        Реестр рекомендованных поставщиков"""
-    contxt = {
-        "services": services.split("\n")
-    }
+    contxt = {}
+    services = Services.objects.filter(visible=True)
+    contxt["services"] = services
     return render(request, 'services.html', context=contxt)
 
 
 def get_contact_page(request):
     contxt = {
-        "contacts": [
-            {
-                "name": "ИНН/ОГРН:",
-                "value": "3702256016 / 1213700003098"
-            },
-            {
-                "name": "Адрес регистрации:",
-                "value": "Ивановская обл, г.о. Иваново, г Иваново, ул Крутицкая, д. 20А, помещ. 11"
-            },
-            {
-                "name": "Телефон:",
-                "value": "+7(4932)773576"
-            },
-            {
-                "name": "email:",
-                "value": "stimul37Iv@yandex.ru"
-            },
-
-        ]
+        "contacts": Contacts.objects.all()
     }
     return render(request, 'contacts.html', context=contxt)
 
@@ -82,4 +57,38 @@ def take_contacts(request):
 
 
 def get_suppliers(request):
-    return render(request, 'suppliers.html')
+    contxt = {"suppliers_list":Suppliers.objects.all()}
+    return render(request, 'suppliers.html', contxt)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def sync_suppliers(request):
+    data = loads(request.body)
+    suppliers_list = []
+    for supplier_data in data["data"]:
+        supplier, _ = Suppliers.objects.get_or_create(INN=supplier_data["inn"])
+        supplier.title = supplier_data["name"]
+        supplier.full_title = supplier_data["namefull"]
+        supplier.OGRN = supplier_data["ogrn"]
+        supplier.KPP = supplier_data["kpp"]
+        supplier.address = supplier_data["addresslegal"]
+        supplier.post_address = supplier_data["addresspostal"]
+        supplier.type = supplier_data["type"]
+        supplier.email = supplier_data["email"]
+        supplier.phone = supplier_data["phone"]
+        supplier.save()
+        suppliers_list.append(supplier)
+    Suppliers.objects.exclude(INN__in=[s.INN for s in suppliers_list]).delete()
+    return JsonResponse({'status': "ok"})
+
+"""{'name': 'АО "УНИВЕРСАМ № 3"', 
+'namefull': 'АКЦИОНЕРНОЕ ОБЩЕСТВО "УНИВЕРСАМ № 3"', 
+'inn': '4401109228', 
+'kpp': '440101001', 
+'ogrn': '1104401004630', 
+'addresslegal': '156019, КОСТРОМСКАЯ ОБЛАСТЬ, Г. КОСТРОМА, УЛ. ИНДУСТРИАЛЬНАЯ, Д. 55, НЕЖИЛОЕ ПОМЕЩЕНИЕ 132 КОМНАТА 3', 
+'addresspostal': '', 
+'type': '', 
+'email': '', 
+'phone': '+7 (4942) 49-12-00, +7 (4942) 49-12-22, +7 (4942) 49-12-45'}"""

@@ -232,35 +232,26 @@ nav > div {
 .services-list {
     max-width: 1000px;
     margin: 0 auto;
+    font-size: 1.7em;
 }
 
-.service-wrap {
-    display: inline-block;
+.services-list > li {
     margin: 10px;
 }
-@media  (max-width: 1199.98px) {
-    .service-wrap {
-        display: block;
-        width: 100%;
-    }
+
+/* .service-wrap {
+    display: block;
+    margin: 10px;
+    width: 100%;
 }
 
 .service {
     font-size: 2em;
     padding: 5px;
-    width: 300px;
-    height: 300px;
+    width: 97%;
     background-color: rgb(66, 98, 149);
-    display: table-cell;
-    vertical-align: middle;
-}
-@media  (max-width: 1199.98px) {
-    .service {
-        width: 97%;
-        height: auto;
-        display: block;
-    }
-}
+    display: block;
+} */
 
 .service-text {
     text-align: center;
@@ -364,4 +355,33 @@ button {
 
 .hide {
     display: none;
+}
+
+.supplier-card {
+    /* padding: 10px; */
+    margin: 10px;
+    border: 1px solid rgb(30, 68, 129);
+}
+
+/* .supplier-card:hover {
+    background-color: rgb(30, 68, 129);
+} */
+
+.supplier-card:hover .name {
+    background-color: rgb(30, 68, 129);
+    color: white;
+}
+
+.supplier-card > .name {
+    font-size: 2em;
+    padding: 10;
+}
+
+.supplier-details {
+    margin: 15px;
+}
+
+.supplier-detail {
+    font-size: 1.3em;
+    margin: 5px;
 }

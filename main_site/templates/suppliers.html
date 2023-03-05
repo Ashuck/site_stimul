@@ -2,7 +2,41 @@
 {% block content %}
 <h1>Поставщики</h1>
 {% if suppliers_list %}
-
+    {% for supplier in suppliers_list %}
+    <div class="supplier-card" onclick="switchDetail(this)">
+        <div class="name">{{supplier.title}}</div>
+        <div class="supplier-details hide">
+            <div class="supplier-detail">
+                Полное название: {{supplier.full_title}}
+            </div>
+            <div class="supplier-detail">
+                ИНН: {{supplier.INN}}
+            </div>
+            <div class="supplier-detail">
+                Почтовый адрес: {{supplier.post_address}}
+            </div>
+            <div class="supplier-detail">
+                E-mail: {{supplier.email}}
+            </div>
+            <div class="supplier-detail">
+                Телефон: {{supplier.phone}}
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+    <script>
+        function switchDetail(e){
+            let details = e.getElementsByClassName("supplier-details")[0];
+            
+            if (details.classList.contains("hide")) {
+                details.classList.remove('hide');
+            
+            } else {
+                details.classList.add('hide');
+            }
+        };
+    </script>
 {% else %}
 <div>Список постащиков еще заполняется</div>
 {% endif %}

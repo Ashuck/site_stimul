@@ -239,7 +239,7 @@ nav > div {
     margin: 10px;
 }
 
-/* .service-wrap {
+.service-wrap {
     display: block;
     margin: 10px;
     width: 100%;
@@ -251,7 +251,7 @@ nav > div {
     width: 97%;
     background-color: rgb(66, 98, 149);
     display: block;
-} */
+}
 
 .service-text {
     text-align: center;
@@ -385,3 +385,4 @@ button {
     font-size: 1.3em;
     margin: 5px;
 }
+

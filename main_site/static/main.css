@@ -229,7 +229,7 @@ nav > div {
     color: white;
 }
 
-.services-list {
+/* .services-list {
     max-width: 1000px;
     margin: 0 auto;
     font-size: 1.7em;
@@ -237,20 +237,39 @@ nav > div {
 
 .services-list > li {
     margin: 10px;
+} */
+
+.services-list {
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .service-wrap {
-    display: block;
+    display: inline-block;
     margin: 10px;
-    width: 100%;
+}
+@media  (max-width: 1199.98px) {
+    .service-wrap {
+        display: block;
+        width: 100%;
+    }
 }
 
 .service {
     font-size: 2em;
     padding: 5px;
-    width: 97%;
+    width: 300px;
+    height: 300px;
     background-color: rgb(66, 98, 149);
-    display: block;
+    display: table-cell;
+    vertical-align: middle;
+}
+@media  (max-width: 1199.98px) {
+    .service {
+        width: 97%;
+        height: auto;
+        display: block;
+    }
 }
 
 .service-text {

@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from sys import argv
 import requests
 
 
@@ -45,7 +46,11 @@ def get_data(url, method_name, params):
     result = result.replace('&gt;', '>')
     return result
 
-
+try:
+    URL = argv[1]
+except:
+    URL = 'http://localhost:8080'
+    print("Use default:", URL)
 
 res = get_data(
     "http://192.168.220.8/mcp_om/ws/stimdataexchange.1cws",
@@ -63,4 +68,4 @@ for contragent in soap.find_all("contragent"):
     )
 
 prepeared_data = {"data": data}
-requests.post("http://localhost:8080/api/sync_suppliers", json=prepeared_data)
+requests.post(URL + '/api/sync_suppliers', json=prepeared_data)

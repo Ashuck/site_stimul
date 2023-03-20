@@ -74,3 +74,15 @@ class Contacts(models.Model):
 
     def __str__(self):
         return f"{self.order_index} {self.name}: {self.value}"
+
+
+class FileForSearch(models.Model):
+    class Meta:
+        verbose_name = "Файл для поиска"
+        verbose_name_plural = "Файлы для поиска"
+    
+    search_file = models.FileField("Файл", upload_to="for_1C/from_site/%Y/%m/%d/")
+    hash_file = models.TextField("Хэсумма")
+
+    def __str__(self):
+        return str(self.id)

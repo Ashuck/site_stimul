@@ -405,3 +405,33 @@ button {
     margin: 5px;
 }
 
+.resource-card {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.resource-suppliers {
+    padding-top: 5px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.info {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+.info_details {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    background-color: rgba(66, 98, 149, 0.068);
+    padding: 7px;
+    border-radius: 7px;
+}
+
+.info_details {
+    margin-bottom: 7px;
+    text-indent: 30px;
+}

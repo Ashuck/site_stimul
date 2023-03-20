@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Поиск поставщиков</h1>
+<div class="info">
+    <a id="info" onclick="switchDetail(this)" href="#">Информация об услуге ></a>
+</div>
+<div class="info_details hide" id="info-detail">
+    <div class="info_detail">
+        Сервис предназначен для подбора поставщиков ресурсов, из числа поставщиков, производителей и импортеров, подающих или по которым подаются в Федеральную государственную информационную систему ценообразования в строительстве сведения об отпускных ценах материалов, изделий, конструкций, оборудования, произведенных в России или ввезенных в страну. Такие поставщики, производители и импортеры представлены в информационной системе «Стимул».
+    </div>
+    <div class="info_detail">
+        Подбор осуществляется путем загрузки на данной странице ведомости ресурсов или локального сметного расчета в формате MS Excel (XLS, XLSX), рассчитанного ресурсно-индексным методом на ФСНБ-2022. Сервис произведет поиск имеющихся в загруженном файле материалов, изделий, конструкций и оборудования в информационной системе «Стимул» по кодам данных ресурсов. Для найденных ресурсов вам будут представлены поставщики.
+    </div>
+    <div class="info_detail">
+        Отметьте интересующих вас поставщиков и сервис автоматически сформирует и отправит запрос ценовых предложений по электронной почте к указанным поставщикам. (В разработке)
+    </div>
+</div>
+<script>
+    function switchDetail(e){
+        let details = document.getElementById(e.id + "-detail");
+        
+        if (details.classList.contains("hide")) {
+            details.classList.remove('hide');
+        
+        } else {
+            details.classList.add('hide');
+        }
+    };
+</script>
+<div>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <p>
+            <input name="resorces_list" type="file" required>
+        </p>
+        <p>
+            <input type="submit" value="Отправить">
+        </p>
+    </form>
+</div>
+
+{% if result.status == '200' %}
+<h1>Результаты поиска</h1>
+<div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
+<div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
+<h2>Список ресурсов:</h2>
+    {% for resource in result.resources %}
+    <div class="resource-card">
+        <h3 class="resource-name">
+            {{ resource.code_orig }} - {{ resource.name }}
+        </h3>
+        {% if resource.suppliers %}
+            <div>Поставщики данного ресурса:</div>
+            <div class="resource-suppliers">
+                {% for supplier in resource.suppliers %}
+                <div class="resource-supplier">
+                    <input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" disabled>
+                    <label for="{{ resource.code_orig }}-{{ supplier.inn }}">
+                        <span class="bold">{{ supplier.name }}</span>, ИНН: {{ supplier.inn }}, 
+                        ОГРН: {{ supplier.ogrn }}, 
+                        адрес: {{ addresspostal }}, 
+                        почта: {{ supplier.email }}, 
+                        тел.: {{ supplier.phone }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div>Поставщики не найдены</div>
+        {% endif %}
+    
+    </div>
+    {% endfor %}
+{% else %}
+    <h2>{{ result.error_text }}</h2>
+{% endif %}
+
+{% endblock %}

@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a>
+
 <h1>Поставщики</h1>
 {% if suppliers_list %}
     {% for supplier in suppliers_list %}
-    <div class="supplier-card" onclick="switchDetail(this)">
-        <div class="name">{{supplier.title}}</div>
-        <div class="supplier-details hide">
+    <div class="supplier-card">
+        <div class="name" id="{{ supplier.id }}" onclick="switchDetail(this)">{{supplier.title}}</div>
+        <div class="supplier-details hide" id="{{ supplier.id }}-detail">
             <div class="supplier-detail">
                 Полное название: {{supplier.full_title}}
             </div>
@@ -27,7 +30,7 @@
     {% endfor %}
     <script>
         function switchDetail(e){
-            let details = e.getElementsByClassName("supplier-details")[0];
+            let details = document.getElementById(e.id + "-detail");
             
             if (details.classList.contains("hide")) {
                 details.classList.remove('hide');

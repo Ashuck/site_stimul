@@ -27,11 +27,23 @@
         }
     };
 </script>
-<div>
+<div class="search_suppliers">
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         <p>
             <input name="resorces_list" type="file" required>
+        </p>
+        <p>
+            <input type="radio" id="Choice1" name="search_renge" value="All" />
+            <label for="Choice1">Показать всех найденых и не найденых поставщиков</label>
+        </p>
+        <p>
+            <input type="radio" id="Choice2" name="search_renge" value="Found" checked/>
+            <label for="Choice2">Показать только найденых поставщиков для ресурсов из файла</label>
+        </p>
+        <p>
+            <input type="radio" id="Choice3" name="search_renge" value="NotFound" />
+            <label for="Choice3">Показать только те ресурсы, для которых не найдены поставщики</label>
         </p>
         <p>
             <input type="submit" value="Отправить">
@@ -41,36 +53,61 @@
 
 {% if result.status == '200' %}
 <h1>Результаты поиска</h1>
+<div>имя файла: {{ result.file_name }}</div>
 <div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
 <div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
 <h2>Список ресурсов:</h2>
+<table>
+    <tr>
+        <th>-</th>
+        <th>Название</th>
+        <th>Ценовой регион</th>
+        <th>ИНН/ОГРН</th>
+        <th>Адрес</th>
+        <th>Контакты</th>
+    </tr>
     {% for resource in result.resources %}
-    <div class="resource-card">
-        <h3 class="resource-name">
-            {{ resource.code_orig }} - {{ resource.name }}
-        </h3>
+        <tr>
+            <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
+        </tr>
         {% if resource.suppliers %}
-            <div>Поставщики данного ресурса:</div>
-            <div class="resource-suppliers">
-                {% for supplier in resource.suppliers %}
-                <div class="resource-supplier">
-                    <input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" disabled>
-                    <label for="{{ resource.code_orig }}-{{ supplier.inn }}">
-                        <span class="bold">{{ supplier.name }}</span>, ИНН: {{ supplier.inn }}, 
-                        ОГРН: {{ supplier.ogrn }}, 
-                        адрес: {{ supplier.addresslegal }}, 
-                        почта: {{ supplier.email }}, 
-                        тел.: {{ supplier.phone }}
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
+            <tr>
+                <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
+            </tr>
+            {% for supplier in resource.suppliers %}
+                <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)">
+                    <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}"></td>
+                    <th><label for="{{ resource.code_orig }}-{{ supplier.inn }}">{{ supplier.name }}</label></th>
+                    <td>{{ supplier.price_zone }}</td>
+                    <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
+                    <td class="table_address">{{ supplier.addresslegal }}</td>
+                    <td><p>{{ supplier.email }}</p><p>{{ supplier.phone }}</p></td>
+
+                </tr>
+            {% endfor %}
         {% else %}
-            <div>Поставщики не найдены</div>
+            <tr>
+                <td colspan="6" class="table_status">Поставщики не найдены</td> 
+            </tr>
         {% endif %}
-    
-    </div>
-    {% endfor %}
+        <tr>
+            <th colspan="6"></th>
+        </tr>
+    {% endfor %}   
+</table>
+<script>
+    function switchInput(e){
+        let checkbox = document.getElementById(e.id.replace("row-", ""));
+        if (checkbox.getAttribute("checked")){
+            checkbox.removeAttribute("checked");
+            e.classList.remove("selected_row");
+        } else {
+            checkbox.setAttribute("checked", true);
+            e.classList.add("selected_row");
+        };
+        
+    };
+</script>
 {% else %}
     <h2>{{ result.error_text }}</h2>
 {% endif %}

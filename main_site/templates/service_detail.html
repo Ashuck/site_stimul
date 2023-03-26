@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<a href="{% url 'services' %}"><h3>Назад к списку услуг</h3></a>
+<h1>{{ service.title }}</h1>
+<div class="main">
+    <div class="about">
+    {% for paragraph in service.get_paragraphs %}
+        <p class="about_p">
+            {{ paragraph }}
+        </p>
+    {% endfor %}
+    </div>   
+</div> 
+{% endblock %}

@@ -3,7 +3,7 @@
 
 <a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a>
 
-<h1>Поставщики</h1>
+<h1>Реестр рекомендованных поставщиков</h1>
 {% if suppliers_list %}
     {% for supplier in suppliers_list %}
     <div class="supplier-card">
@@ -16,7 +16,7 @@
                 ИНН: {{supplier.INN}}
             </div>
             <div class="supplier-detail">
-                Почтовый адрес: {{supplier.post_address}}
+                Юридический адрес: {{supplier.address}}
             </div>
             <div class="supplier-detail">
                 E-mail: {{supplier.email}}

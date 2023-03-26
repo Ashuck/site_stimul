@@ -27,4 +27,4 @@ for contragent in soap.find_all("contragent"):
     )
 
 prepeared_data = {"data": data}
-requests.post(URL + '/api/sync_suppliers', json=prepeared_data)
+requests.post(URL + '/suppliers/api/sync_suppliers', json=prepeared_data)

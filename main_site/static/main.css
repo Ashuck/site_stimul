@@ -38,9 +38,10 @@ html, body {
 
 h1 {
     margin-bottom: 30px;
+    margin-top: 30px;
 }
 
-p {
+.about_p {
     font-size: 1.3em;
     text-indent: 30px;
     margin-top: 10px;
@@ -76,6 +77,56 @@ nav > div {
     }
 }
 
+.nav-element {
+    display: block;
+    padding: 5px;
+}
+
+.nav-element:hover {
+    background-color: #e2eaf3;
+    border-radius: 7px;
+}
+
+.nav-element ul {
+
+    /* margin-left: 0; Отступ слева в браузере IE и Opera */
+    padding-left: 0;
+    display: none;
+    position: absolute;
+}
+
+.nav-element li {
+    /* text-align: center; */
+    
+    /* margin: 5px; */
+    list-style-type: none;
+    font-size: 1.1em;
+
+
+    /* top: 100%; */
+}
+
+.nav-element:hover > ul {
+    display:block;
+    /* background-color: #e2eaf3; */
+    
+    padding: 3px;
+    margin-top: 5px;
+}
+
+.nav-elems ul ul li{
+    min-width:170px;
+    float:none;
+    display:list-item;
+    position: relative;
+    padding-inline-start: 0px;
+    padding: 3px;
+    margin: 3px;
+}
+.nav-elems ul ul li:hover{
+    background-color: #e2eaf3;
+    border-radius: 7px;
+}
 
 .logo {
     display: inline-block;
@@ -159,7 +210,13 @@ nav > div {
     display: inline-block;
     /* background-color: rgb(184, 184, 184); */
     margin-right: 30px;
+    max-width: 300px;
 }
+
+.pic-about > img {
+    width: 100%;;
+}
+
 @media  (max-width: 1199.98px) {
     .pic-about {
         display: none;
@@ -173,7 +230,7 @@ nav > div {
 
 .about {
     display: inline-block;
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
 }
 
@@ -206,13 +263,21 @@ nav > div {
 }
 
 .partner_list {
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; */
+    max-width: 1000px;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 200px;
 }
 
 .partner {
     width: 200px;
+    display: inline-block;
+    margin: 50px;
+    line-height: normal;
+    vertical-align: middle;
 }
 
 .partner > img {
@@ -247,6 +312,7 @@ nav > div {
 .service-wrap {
     display: inline-block;
     margin: 10px;
+    
 }
 @media  (max-width: 1199.98px) {
     .service-wrap {
@@ -256,13 +322,14 @@ nav > div {
 }
 
 .service {
-    font-size: 2em;
+    font-size: 1.9em;
     padding: 5px;
     width: 300px;
     height: 300px;
     background-color: rgb(66, 98, 149);
     display: table-cell;
     vertical-align: middle;
+    border-radius: 7px;
 }
 @media  (max-width: 1199.98px) {
     .service {
@@ -270,6 +337,10 @@ nav > div {
         height: auto;
         display: block;
     }
+}
+
+.service:hover {
+    background-color: rgb(108, 152, 221);
 }
 
 .service-text {
@@ -334,7 +405,7 @@ nav > div {
     padding: 15px;
 }
 
-form > p {
+form > .about_p {
     text-indent: 0px;
 }
 
@@ -434,4 +505,45 @@ button {
 .info_details {
     margin-bottom: 7px;
     text-indent: 30px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    vertical-align: text-top;
+}
+
+th, td {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+
+
+/* table suppliers */
+.table_checkbox {
+    width: 30px;
+}
+
+.table_status, .table_resource_name {
+    text-align: left;
+}
+
+.table_address {
+    max-width: 550px;
+}
+
+.selected_row {
+    background-color: rgba(66, 98, 149, 0.068);
+}
+
+.search_suppliers {
+    margin-bottom: 30px;
 }

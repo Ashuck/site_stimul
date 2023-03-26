@@ -3,13 +3,21 @@
 <h1>Услуги и виды деятельности</h1>
 <div class="services-list">
     {% for service in services %}
-    <div class="service-wrap">
-        <div class="service">
-            <div class="service-text">
-                {{ service }}
+        {% if service.url_type == 1 %}
+        <a href="{{ service.url_page }}">
+        {% elif service.url_type == 2 %}
+        <a href="{% url 'service_detail' %}?service_id={{ service.id }}"> 
+        {% endif %}
+        <div class="service-wrap">
+            <div class="service">
+                <div class="service-text">
+                    {{ service }}
+                </div>
             </div>
         </div>
-    </div>
+        {% if service.url_type == 1 or service.url_type == 2 %}
+        </a>
+        {% endif %}
     {% endfor %}
 </div>
 <!-- <ul class="services-list">

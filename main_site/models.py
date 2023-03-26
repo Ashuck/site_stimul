@@ -15,50 +15,29 @@ class FeedbackContact(models.Model):
         return self.firm_name
 
 
-class Suppliers(models.Model):
-    class Meta:
-        verbose_name = "Поставщик"
-        verbose_name_plural = "Поставщики"
-    
-    INN = models.CharField("ИНН", max_length=32)
-    KPP = models.CharField("КПП", max_length=32)
-    OGRN = models.CharField("ОГРН", max_length=32)
-    title = models.CharField("Название", max_length=320)
-    full_title = models.CharField("Полное название", max_length=1320, default="")
-    email = models.EmailField("Електронная почта")
-    address = models.CharField("Адрес фактический", max_length=1320)
-    post_address = models.CharField("Адрес почтовый", max_length=1320)
-    type = models.CharField("Тип", max_length=32)
-    phone = models.TextField("Номер телефона")
-    site_url = models.URLField("Сайт", max_length=320)
-    price = models.FileField("Прайс-лист", null=True, blank=True)
-    
-    def __str__(self) -> str:
-        return f"{self.title} ({self.INN})"
-
-
-class Supplier_products(models.Model):
-    class Meta:
-        verbose_name = "Товар поставщика"
-        verbose_name_plural = "Товары поставщиков"
-    
-    title = models.CharField("Название", max_length=320)
-    supplier = models.ForeignKey(Suppliers, models.CASCADE, related_name="products")
-
-    def __str__(self) -> str:
-        return self.title
-
-
 class Services(models.Model):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
     
+    choices = (
+        (0, "Без ссылки"),
+        (1, "На страницу"),
+        (2, "На описание")
+    )
+
     title = models.CharField("Название", max_length=1320)
     visible = models.BooleanField("Видимость", default=True)
+    url_type = models.IntegerField("Тип ссылки", choices=choices, default=0)
+    url_page = models.URLField("Страница", default=None, null=True, blank=True)
+    detail = models.TextField("Описание", default="", blank=True)
     
     def __str__(self):
         return self.title
+    
+    def get_paragraphs(self):
+        for p in self.detail.split("\n"):
+            yield p
 
 
 class Contacts(models.Model):
@@ -76,13 +55,51 @@ class Contacts(models.Model):
         return f"{self.order_index} {self.name}: {self.value}"
 
 
-class FileForSearch(models.Model):
+class Managers(models.Model):
     class Meta:
-        verbose_name = "Файл для поиска"
-        verbose_name_plural = "Файлы для поиска"
+        verbose_name = "Руководитель"
+        verbose_name_plural = "Руководство"
+        ordering = ("order_index",)
     
-    search_file = models.FileField("Файл", upload_to="for_1C/from_site/%Y/%m/%d/")
-    hash_file = models.TextField("Хэсумма")
+    FIO = models.CharField("ФИО", max_length=300)
+    about = models.TextField("Биография")
+    Photo = models.ImageField("Фото", upload_to="pictures/managers")
+    JobFunction = models.CharField("Должность", max_length=36) 
+    order_index = models.IntegerField("Очередность сортировки", default=0)
 
-    def __str__(self):
-        return str(self.id)
+    def __str__(self) -> str:
+        return f"{self.JobFunction}: {self.FIO}"
+
+    def get_paragraphs(self):
+        for p in self.about.split("\n"):
+            yield p
+
+
+class Partners(models.Model):
+    class Meta:
+        verbose_name = "Партнер"
+        verbose_name_plural = "Партнеры"
+        ordering = ("order_index",)
+
+    title = models.CharField("Имя компании", max_length=50)
+    site_url = models.URLField("Сайт партнера")
+    logo = models.ImageField("Лого", upload_to="pictures/pertners_logo")
+    order_index = models.IntegerField("Очередность сортировки", default=0)
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Sliders(models.Model):
+    class Meta:
+        verbose_name = "Кадр слайдера"
+        verbose_name_plural = "Кадры сладера"
+        ordering = ("order_index",)
+    
+    title = models.CharField("Имя слайда", max_length=60)
+    image = models.ImageField("Картинка слайдера", upload_to="pictures/slader_frames")
+    order_index = models.IntegerField("Очередность сортировки", default=0)
+    slider_tag = models.CharField("Уникальный тэг слайдера", max_length=6)
+
+    def __str__(self) -> str:
+        return f"{self.title} для {self.slider_tag}"

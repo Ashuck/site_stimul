@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'slider.css' %}">
+    <script defer src="{% static 'slider.js' %}"></script>
     <title>Стимул</title>
 </head>
 
@@ -20,14 +22,16 @@
             <ul class="menu">
                 <li class="nav-element">
                     <a href="/">О компании</a>
+                    <ul>
+                        <a href="/managers"><li>Руководство</li></a>
+                        <a href="/expirience"><li>Опыт работы</li></a>
+                        <a href="/contacts"><li>Контакты</li></a>
+                    </ul>
                 </li>
                 <li class="nav-element">
                     <a href="/services">Услуги</a>
                 </li>
                 <li class="nav-element">
-                    <a href="/contacts">Контакты</a>
-                </li>
-                <li>
                     <a onclick="showFeedback()" href="#">Обратная связь</a>
                 </li>
                 <li class="nav-element">
@@ -77,28 +81,28 @@
                 <h2 id="status" class="status hide"></h2>
                 <form id="feedbackData">
                     {% csrf_token %}
-                    <p>
+                    <p class="about_p">
                         <label for="id_fio">Имя:</label>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <input name="fio" required="" id="id_fio"></textarea>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <label for="id_firm_name">Название организации:</label>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <input name="firm_name" required="" id="id_firm_name"></textarea>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <label for="id_phone">Номер телефона:</label>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <input name="phone" required="" id="id_phone"></textarea>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <label for="id_email">Электронная почта:</label>
                     </p>
-                    <p>
+                    <p class="about_p">
                         <input type="email" name="email" maxlength="254" required="" id="id_email">
                     </p>
                     <p class="buttons_form">

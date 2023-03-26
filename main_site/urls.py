@@ -1,15 +1,15 @@
 from django.urls import path
 from main_site.views import (
     get_main_page, get_services_page, get_contact_page, 
-    take_contacts, get_suppliers, sync_suppliers, search_suppliers
+    take_contacts, get_expirience, get_managers, get_service_detail
 )
 
 urlpatterns = [
     path('services', get_services_page, name='services'),
+    path('services/detail', get_service_detail, name='service_detail'),
     path('contacts', get_contact_page, name='contacts'),
     path('feedback', take_contacts, name='feedback'),
-    path('suppliers', get_suppliers, name='suppliers'),
-    path('suppliers/search', search_suppliers, name='search_suppliers'),
-    path('api/sync_suppliers', sync_suppliers, name='sync_suppliers'),
+    path('expirience', get_expirience, name='expirience'),
+    path('managers', get_managers, name='managers'),
     path('', get_main_page, name='main'),
 ]

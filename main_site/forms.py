@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from main_site.models import FeedbackContact, FileForSearch
+from main_site.models import FeedbackContact
 
 
 class FeedBackForm(ModelForm):
@@ -13,9 +13,9 @@ class FeedBackForm(ModelForm):
         ]
 
 
-class SearchFromFileForm(ModelForm):
-    class Meta:
-        model = FileForSearch
-        fields = [
-            "search_file"
-        ]
+# class SearchFromFileForm(ModelForm):
+#     class Meta:
+#         model = FileForSearch
+#         fields = [
+#             "search_file"
+#         ]

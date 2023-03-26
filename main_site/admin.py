@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from main_site.models import Contacts, Services, Suppliers, FileForSearch
+from main_site.models import Contacts, Services, Managers, Partners, Sliders
 
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
@@ -11,10 +11,14 @@ class ContactsAdmin(admin.ModelAdmin):
 class ServicesAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Suppliers)
-class SuppliersAdmin(admin.ModelAdmin):
+@admin.register(Managers)
+class ManagersAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(FileForSearch)
-class FileForSearchAdmin(admin.ModelAdmin):
+@admin.register(Partners)
+class PartnersAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Sliders)
+class SlidersAdmin(admin.ModelAdmin):
     pass

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Руководство</h1>
+{% for manager in managers %}
+<div class="main">
+    <div class="pic-about">
+        <img src="{{ manager.Photo.url }}" alt="Картинка">
+    </div>
+    <div class="about">
+        
+        <h2>
+            {{ manager.FIO }}
+        </h2>
+        <h3>{{ manager.JobFunction }} </h3>
+        <!-- <p class="about_p">Должность: </p> -->
+        {% for paragraph in manager.get_paragraphs %}
+        <p class="about_p">
+            {{ paragraph }}
+        </p>
+        {% endfor %}
+    </div>   
+ 
+</div>
+{% endfor %}   
+{% endblock %}

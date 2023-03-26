@@ -75,44 +75,50 @@
 <div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
 <div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
 <h2>Список ресурсов:</h2>
-<table>
-    <tr>
-        <th>-</th>
-        <th>Название</th>
-        <th>Ценовой регион</th>
-        <th>ИНН/ОГРН</th>
-        <th>Адрес</th>
-        <th>Контакты</th>
-    </tr>
-    {% for resource in result.resources %}
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <table>
         <tr>
-            <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
+            <th>-</th>
+            <th>Название</th>
+            <th>Ценовой регион</th>
+            <th>ИНН/ОГРН</th>
+            <th>Адрес</th>
+            <th>Контакты</th>
         </tr>
-        {% if resource.suppliers %}
+        {% for resource in result.resources %}
             <tr>
-                <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
+                <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
             </tr>
-            {% for supplier in resource.suppliers %}
-                <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)">
-                    <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}"></td>
-                    <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/>(Рекомендованный поставщик){% endif %}</label></th>
-                    <td>{{ supplier.price_zone }}</td>
-                    <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
-                    <td class="table_address">{{ supplier.addresslegal }}</td>
-                    <td><p>{{ supplier.email }}</p><p>{{ supplier.phone }}</p></td>
-
+            {% if resource.suppliers %}
+                <tr>
+                    <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
                 </tr>
-            {% endfor %}
-        {% else %}
+                {% for supplier in resource.suppliers %}
+                    <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)">
+                        <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" value="{{ resource.code_orig }}|-|{{ supplier.inn }}"></td>
+                        <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/>(Рекомендованный поставщик){% endif %}</label></th>
+                        <td>{{ supplier.price_zone }}</td>
+                        <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
+                        <td class="table_address">{{ supplier.addresslegal }}</td>
+                        <td><p>{{ supplier.email }}</p><p>{{ supplier.phone }}</p></td>
+
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6" class="table_status">Поставщики не найдены</td> 
+                </tr>
+            {% endif %}
             <tr>
-                <td colspan="6" class="table_status">Поставщики не найдены</td> 
+                <th colspan="6"></th>
             </tr>
-        {% endif %}
-        <tr>
-            <th colspan="6"></th>
-        </tr>
-    {% endfor %}   
-</table>
+        {% endfor %}   
+    </table>
+    <!-- <p>
+        <input type="submit" value="Отправить">
+    </p> -->
+</form>
 <script>
     function switchInput(e){
         let checkbox = document.getElementById(e.id.replace("row-", ""));

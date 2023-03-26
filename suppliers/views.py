@@ -45,6 +45,7 @@ def search_suppliers(request: HttpRequest):
     if request.method == "GET":
         pass
     else:
+        print(request.POST)
         md5_hash = hashlib.md5()
         md5_hash.update(request.FILES["resorces_list"].read())
         

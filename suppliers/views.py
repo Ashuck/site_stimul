@@ -61,7 +61,7 @@ def search_suppliers(request: HttpRequest):
         print(path_for_1C)
         params = {
             "File": path_for_1C,
-            "HashMD5": md5_hash,
+            "HashMD5": md5_hash.hexdigest(),
             "Range": request.POST.get("search_renge", "Found"),
             "Period": request.POST.get("period", "All")
         }

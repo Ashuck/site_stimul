@@ -95,7 +95,7 @@
             {% for supplier in resource.suppliers %}
                 <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)">
                     <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}"></td>
-                    <th><label for="{{ resource.code_orig }}-{{ supplier.inn }}">{{ supplier.name }}</label></th>
+                    <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/>(Рекомендованный поставщик){% endif %}</label></th>
                     <td>{{ supplier.price_zone }}</td>
                     <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
                     <td class="table_address">{{ supplier.addresslegal }}</td>

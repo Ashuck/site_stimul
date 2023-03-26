@@ -62,7 +62,8 @@ def search_suppliers(request: HttpRequest):
         params = {
             "File": path_for_1C,
             "HashMD5": md5_hash,
-            "Range": request.POST.get("search_renge", "Found")
+            "Range": request.POST.get("search_renge", "Found"),
+            "Period": request.POST.get("period", "All")
         }
         # fake_params = {
         #     "File": r"\\SRV-1C-DEV\files_mcp_om\Вед. ресурсов 7 граф.xlsx",

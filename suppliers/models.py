@@ -18,6 +18,7 @@ class Suppliers(models.Model):
     phone = models.TextField("Номер телефона")
     site_url = models.URLField("Сайт", max_length=320)
     price = models.FileField("Прайс-лист", null=True, blank=True)
+    fromrrp = models.BooleanField("Из реестра рекомендованных поставщиков", default=True)
     
     def __str__(self) -> str:
         return f"{self.title} ({self.INN})"

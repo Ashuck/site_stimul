@@ -1,46 +1,165 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a>
+<!-- <a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a> -->
 
-<h1>Реестр рекомендованных поставщиков</h1>
+<h1>Реестр поставщиков</h1>
+
+<div class="mobile-filter mobile">
+    <!-- <button id="filter" type="button" onclick="switchElement(this, '-mobile')">Фильтр</button> -->
+    <div id="filter-mobile" >
+        <h3>Поиск по реестру:</h3>
+        <form action="">
+            <p>
+                <label for="search">Поиск по названию или ИНН:</label>
+            </p>
+            <p>
+                <input id="serach" name="search" type="text">
+            </p>
+            <p>
+                <input type="checkbox" name="fromrrp" id="fromrrp">
+                <label for="fromrrp">Только рекомендованные</label>
+            </p>
+            <p>
+                <button class="submit">Искать</button>
+            </p>
+            
+        </form>
+    </div>
+
+</div>
 {% if suppliers_list %}
-    {% for supplier in suppliers_list %}
-    <div class="supplier-card">
-        <div class="name" id="{{ supplier.id }}" onclick="switchDetail(this)">{{supplier.title}}</div>
-        <div class="supplier-details hide" id="{{ supplier.id }}-detail">
-            <div class="supplier-detail">
-                Полное название: {{supplier.full_title}}
+<div class="suppliers-space">
+    <div class="supplier-list">
+        {% for supplier in suppliers_list %}
+        <div class="supplier-card">
+            <div class="name-container" id="{{ supplier.id }}" onclick="switchElement(this, '-detail')">
+                <span class="name">{{supplier.title}}</span> 
+                {% if supplier.fromrrp %}
+                    <span class="in-rrp">Рекомендованный</span>
+                {% endif %}
             </div>
-            <div class="supplier-detail">
-                ИНН: {{supplier.INN}}
-            </div>
-            <div class="supplier-detail">
-                Юридический адрес: {{supplier.address}}
-            </div>
-            <div class="supplier-detail">
-                E-mail: {{supplier.email}}
-            </div>
-            <div class="supplier-detail">
-                Телефон: {{supplier.phone}}
+            <div class="supplier-details hide" id="{{ supplier.id }}-detail">
+                <div class="supplier-detail">
+                    Полное название: {{supplier.full_title}}
+                </div>
+                <div class="supplier-detail">
+                    ИНН: {{supplier.INN}}
+                </div>
+                <div class="supplier-detail">
+                    Юридический адрес: {{supplier.address}}
+                </div>
+                <div class="supplier-detail">
+                    E-mail: {{supplier.email}}
+                </div>
+                <div class="supplier-detail">
+                    Телефон: {{supplier.phone}}
+                </div>
             </div>
         </div>
+        
+        {% endfor %}
     </div>
-    
-    {% endfor %}
-    <script>
-        function switchDetail(e){
-            let details = document.getElementById(e.id + "-detail");
+    <div class="supplier-filters">
+        <h2>Криетрии поиска</h2>
+        <h3>Поиск по реестру:</h3>
+        <form action="">
+            <p>
+                <label for="search">Поиск по названию или ИНН:</label>
+            </p>
+            <p>
+                <input id="serach" name="search" type="text">
+            </p>
+            <p>
+                <input type="checkbox" name="fromrrp" id="fromrrp">
+                <label for="fromrrp">Только рекомендованные</label>
+            </p>
+            <p>
+                <button class="submit">Искать</button>
+            </p>
             
-            if (details.classList.contains("hide")) {
-                details.classList.remove('hide');
-            
-            } else {
-                details.classList.add('hide');
-            }
-        };
-    </script>
+        </form>
+        <h3>Поиск по РВ или ЛСР:</h3>
+        <div class="info">
+            <a id="info" onclick="switchElement(this, '-detail')" href="#">Информация об услуге ></a>
+        </div>
+        <div class="popup hide" id="info-detail">
+            <div class="popup_wrapper">
+                <div class="popup_content">
+                    <div class="info_details">
+                        <div class="info_detail">
+                            Сервис предназначен для подбора поставщиков ресурсов, из числа поставщиков, производителей и импортеров, подающих или по которым подаются в Федеральную государственную информационную систему ценообразования в строительстве сведения об отпускных ценах материалов, изделий, конструкций, оборудования, произведенных в России или ввезенных в страну. Такие поставщики, производители и импортеры представлены в информационной системе «Стимул».
+                        </div>
+                        <div class="info_detail">
+                            Подбор осуществляется путем загрузки на данной странице ведомости ресурсов или локального сметного расчета в формате MS Excel (XLS, XLSX), рассчитанного ресурсно-индексным методом на ФСНБ-2022. Сервис произведет поиск имеющихся в загруженном файле материалов, изделий, конструкций и оборудования в информационной системе «Стимул» по кодам данных ресурсов. Для найденных ресурсов вам будут представлены поставщики.
+                        </div>
+                        <div class="info_detail">
+                            Отметьте интересующих вас поставщиков и сервис автоматически сформирует и отправит запрос ценовых предложений по электронной почте к указанным поставщикам. (В разработке)
+                        </div>
+                    </div>
+                    <button id="info" type="button" onclick="switchElement(this, 'detail')" class="cancel">Закрыть</button>
+                </div>
+            </div>
+        </div>
+        <div class="search_suppliers">
+            <form action="{% url 'search_suppliers' %}" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <p>
+                    <input id="resorces_list" name="resorces_list" type="file" required>
+                    <label for="resorces_list" class="as-btn">Выберите файл</label>
+                    <p>
+                        <span id="chosen">Файл не выбран</span> 
+                    </p>   
+                    <script>  
+                        function handleFiles() {
+                            const chosenFile = document.getElementById('chosen');
+                            chosenFile.textContent = this.files[0].name
+                        }
+                        const inputFiles = document.getElementById('resorces_list');
+                        inputFiles.addEventListener('change', handleFiles, false);
+                    </script>
+                </p>
+                <p>
+                    <label for="search_range">Показывать</label>
+                </p>
+                <p>
+                    <select name="search_range" id="search_range">
+                        <option value="All">Всех найденых и не найденых поставщиков</option>
+                        <option value="Found" selected>Только найденых поставщиков для ресурсов из файла</option>
+                        <option value="NotFound">Ресурсы без поставщика</option>
+                    </select>
+                </p>
+                    
+                <p>
+                    <label for="periods">Расчетный период: </label>
+                </p>
+                <p>
+                    <select name="period" id="periods">
+                        <option value="All">Все</option>
+                        <option value="12022">1ый квартал 2022г.</option>
+                        <option value="22022">2ой квартал 2022г.</option>
+                        <option value="32022">3ий квартал 2022г.</option>
+                        <option value="42022">4ый квартал 2022г.</option>
+                        <option value="12023">1ый квартал 2023г.</option>
+                        <option value="22023" selected>2ой квартал 2023г.</option>
+                        <option value="32023">3ий квартал 2023г.</option>
+                        <option value="42023">4ый квартал 2023г.</option>
+                        <option value="12024">1ый квартал 2024г.</option>
+                        <option value="22024">2ой квартал 2024г.</option>
+                        <option value="32024">3ий квартал 2024г.</option>
+                        <option value="42024">4ый квартал 2024г.</option>
+                    </select>
+                </p>
+                <p>
+                    <button class="submit">Отправить</button>
+                    <!-- <input type="submit" value="Отправить"> -->
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
 {% else %}
-<div>Список постащиков еще заполняется</div>
+    <div>Ничего не найдено</div>
 {% endif %}
+
 {% endblock %}

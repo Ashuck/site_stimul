@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'mobile.css' %}">
     <link rel="stylesheet" href="{% static 'slider.css' %}">
     <script defer src="{% static 'slider.js' %}"></script>
     <title>Стимул</title>
@@ -14,8 +15,41 @@
 
 <body>
     <nav>
+        <div class="mobile-menu">
+            <span id="mobile-menu" onclick="switchElement(this, '-content')">≡</span>
+            <div id="mobile-menu-content" class="mobile-menu-content hide">
+                <ul class="menu">
+                    <li class="nav-element">
+                        <a href="/">О компании</a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/managers">Руководство</a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/expirience">Опыт работы</a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/contacts">Контакты</a>
+                    </li>
+                        
+                    <li class="nav-element">
+                        <a href="/services">Услуги</a>
+                    </li>
+                    <li class="nav-element">
+                        <a onclick="showFeedback()" href="#">Обратная связь</a>
+                    </li>
+                    <li class="nav-element">
+                        <a href="/suppliers">Поставщики</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
         <div class="logo-wrapper">
-            <a href="/" class="logo">СТИМУЛ <span>ЦЕНТР ЦЕНООБРАЗОВАНИЯ</span></a>
+            <a href="/" class="logo">
+                <span class="title">СТИМУЛ</span>
+                <span>ЦЕНТР</span>
+                <span class="subtitle">ЦЕНООБРАЗОВАНИЯ</span></a>
             <!-- <img src="./media/logo.sv" alt="СТИМУЛ"> -->
         </div>
         <div class="nav-elems">
@@ -53,26 +87,59 @@
         {% endblock %}
     </div>
     <div class="footer">
-        <div class="footer-contact-list">
-            <div class="footer-contact">
-                <div class="footer-contact-name">
-                    Телефон:
+        <div class="footer-content">
+            <div class="footer-contact-list">
+                <div class="footer-contact">
+                    <div class="footer-contact-name">
+                        Телефон:
+                    </div>
+                    <div class="footer-contact-value">
+                        +7(4932)773576
+                    </div>
                 </div>
-                <div class="footer-contact-value">
-                    +7(4932)773576
+    
+                <div class="footer-contact">
+                    <div class="footer-contact-name">
+                        email:
+                    </div>
+                    <div class="footer-contact-value">
+                        stimul37Iv@yandex.ru
+                    </div>
+                </div>
+    
+            </div>
+            <div class="footer-menu">
+                <div class="footer-menu-content">
+                    <ul class="menu">
+                        <li class="nav-element">
+                            <a href="/">О компании</a>
+                        </li>
+                        <li class="nav-element">
+                            <a href="/managers">Руководство</a>
+                        </li>
+                        <li class="nav-element">
+                            <a href="/expirience">Опыт работы</a>
+                        </li>
+                        <li class="nav-element">
+                            <a href="/contacts">Контакты</a>
+                        </li>
+                            
+                        <li class="nav-element">
+                            <a href="/services">Услуги</a>
+                        </li>
+                        <li class="nav-element">
+                            <a onclick="showFeedback()" href="#">Обратная связь</a>
+                        </li>
+                        <li class="nav-element">
+                            <a href="/suppliers">Поставщики</a>
+                        </li>
+                    </ul>
+    
                 </div>
             </div>
-
-            <div class="footer-contact">
-                <div class="footer-contact-name">
-                    email:
-                </div>
-                <div class="footer-contact-value">
-                    stimul37Iv@yandex.ru
-                </div>
-            </div>
-
         </div>
+        
+  
     </div>
     <div id="popup" class="popup hide">
         <div class="popup_wrapper">
@@ -85,19 +152,19 @@
                         <label for="id_fio">Имя:</label>
                     </p>
                     <p class="about_p">
-                        <input name="fio" required="" id="id_fio"></textarea>
+                        <input name="fio" required="" id="id_fio">
                     </p>
                     <p class="about_p">
                         <label for="id_firm_name">Название организации:</label>
                     </p>
                     <p class="about_p">
-                        <input name="firm_name" required="" id="id_firm_name"></textarea>
+                        <input name="firm_name" required="" id="id_firm_name">
                     </p>
                     <p class="about_p">
                         <label for="id_phone">Номер телефона:</label>
                     </p>
                     <p class="about_p">
-                        <input name="phone" required="" id="id_phone"></textarea>
+                        <input name="phone" required="" id="id_phone">
                     </p>
                     <p class="about_p">
                         <label for="id_email">Электронная почта:</label>
@@ -114,6 +181,7 @@
         </div>
     </div>
     <script type="text/javascript" language="javascript" src="{% static 'popup_worker.js' %}"></script>
+    <script type="text/javascript" language="javascript" src="{% static 'switchElement.js' %}"></script>
 </body>
 
 </html>

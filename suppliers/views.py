@@ -4,9 +4,19 @@ from json import loads
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.db.models import Q
+
 
 def get_suppliers(request):
-    contxt = {"suppliers_list":Suppliers.objects.all()}
+    part_name = request.GET.get("search", "")
+    contxt = {
+        "suppliers_list":Suppliers.objects.filter(
+            Q(title__contains=part_name) |
+            Q(full_title__contains=part_name) |
+            Q(INN__contains=part_name) |
+            Q(OGRN__contains=part_name)
+        )
+    }
     return render(request, 'suppliers.html', contxt)
 
 
@@ -27,6 +37,7 @@ def sync_suppliers(request):
         supplier.type = supplier_data["type"]
         supplier.email = supplier_data["email"]
         supplier.phone = supplier_data["phone"]
+        supplier.fromrrp = supplier_data["fromrrp"]
         supplier.save()
 
         # Добавляем ИНН в список, из таблицы будут удалены поставщики, которых нет в списке

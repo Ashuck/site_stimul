@@ -22,9 +22,12 @@ soap = BeautifulSoup(res, features="lxml")
 data = []
 
 for contragent in soap.find_all("contragent"):
+    supp = {i.name: i.text for i in contragent.children if i.name}
+    supp["fromrrp"] = supp["fromrrp"] == "true"
     data.append(
-        {i.name: i.text for i in contragent.children if i.name}
+        supp
     )
+    # print(data[-1])
 
 prepeared_data = {"data": data}
 requests.post(URL + '/suppliers/api/sync_suppliers', json=prepeared_data)

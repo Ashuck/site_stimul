@@ -1,0 +1,149 @@
+@media  (max-width: 1199.98px) {
+    /* * {
+        font-size: 1.01em;
+    } */
+    .nav-elems {
+        display: none;
+    }
+    .service {
+        width: 97%;
+        height: auto;
+        display: block;
+    }
+
+    .service-wrap {
+        display: block;
+        width: 100%;
+    }
+
+    /* .partners {
+        display: none;
+    } */
+    .partner {
+        width: 120px;
+        display: inline-block;
+        margin: 10px;
+        /* line-height: normal; */
+        vertical-align: middle;
+    }
+
+    .pic-about {
+        display: none;
+    }
+
+    .company_name {
+        margin-left: 100px;
+    }
+
+    .company_name {
+        margin-left: 0;
+        font-size: 1.7em;
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 0.8em;
+    }
+
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 30px;
+        
+        width: 100%;
+    }
+    .mobile-menu > span {
+        font-size: 4em;
+    }
+
+    nav > div {
+        display: block;
+    }
+
+
+    nav {
+        display: block;
+        position: fixed;
+        background-color: rgb(30, 68, 129);
+        width: 100%;
+        z-index: 999;
+        height: 100px;
+        border-bottom: 1px solid rgba(25, 47, 83);
+        padding: 0px;
+    }
+
+    nav * {
+        color: white;
+    }
+
+    .mobile-menu-content {
+        position: absolute;
+        width: 100%;
+        background-color: white;
+        left: -30px;
+    }
+    .mobile-menu-content * {
+        color:rgba(25, 47, 83);
+    }
+    .menu > li {
+        display: block;
+        margin: 15px;
+        font-size: 1.7em;
+    }
+
+
+    .content {
+        margin-top: 120px;
+    }
+
+
+    .desktop {
+        display: none;
+    }
+    
+    .mobile {
+        display: inline;
+    }
+    .supplier-filters {
+        display: none;
+    }
+    .suppliers-space {
+        display: block;
+    }
+    .supplier-list {
+        width: 100%;
+    }
+    .supplier-card > .name-container  {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100px;
+    }
+    .name-container > span {
+        text-align: center;
+    }
+    .mobile-filter > div > form > p {
+        margin-bottom: 15px;
+    }
+    .mobile-filter {
+        margin: 15px;
+        display: block;
+        
+    }
+    .mobile-filter button {
+        font-size: 1.2em;
+    }
+    .mobile-filter > div label {
+        font-size: 1.2em;
+    }
+    .mobile-filter input[type=text] {
+        width: 100%;
+        font-size: 1.1em;
+    }
+
+    .footer-menu {
+        display: none;
+    }
+}

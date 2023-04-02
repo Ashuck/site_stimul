@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Поиск поставщиков</h1>
 <div class="info">
-    <a id="info" onclick="switchDetail(this)" href="#">Информация об услуге ></a>
+    <a id="info" onclick="switchElement(this, '-detail')" href="#">Информация об услуге ></a>
 </div>
 <div class="info_details hide" id="info-detail">
     <div class="info_detail">
@@ -15,56 +15,62 @@
         Отметьте интересующих вас поставщиков и сервис автоматически сформирует и отправит запрос ценовых предложений по электронной почте к указанным поставщикам. (В разработке)
     </div>
 </div>
-<script>
-    function switchDetail(e){
-        let details = document.getElementById(e.id + "-detail");
-        
-        if (details.classList.contains("hide")) {
-            details.classList.remove('hide');
-        
-        } else {
-            details.classList.add('hide');
-        }
-    };
-</script>
 <div class="search_suppliers">
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
+        <div class="search_suppliers_inputs">
+            <div>
+                <p>
+                    <input id="resorces_list" name="resorces_list" type="file" required>
+                    <label for="resorces_list" class="as-btn">Выберите файл</label>
+                </p>
+
+                <p>
+                    <span id="chosen">Файл не выбран</span> 
+                </p>   
+                <script>  
+                    function handleFiles() {
+                        const chosenFile = document.getElementById('chosen');
+                        chosenFile.textContent = this.files[0].name
+                    }
+                    const inputFiles = document.getElementById('resorces_list');
+                    inputFiles.addEventListener('change', handleFiles, false);
+                </script>
+            </div>
+            <div>
+                <p>
+                    <label for="search_range">Показывать</label>
+                </p>
+                <select name="search_range" id="search_range">
+                    <option value="All">Всех найденых и не найденых поставщиков</option>
+                    <option value="Found" selected>Только найденых поставщиков для ресурсов из файла</option>
+                    <option value="NotFound">Ресурсы без поставщика</option>
+                </select>
+            </div>
+            <div>
+                <p>
+                    <label for="periods">Расчетный период: </label>
+                </p>
+                <select name="period" id="periods">
+                    <option value="All">Все</option>
+                    <option value="12022">1ый квартал 2022г.</option>
+                    <option value="22022">2ой квартал 2022г.</option>
+                    <option value="32022">3ий квартал 2022г.</option>
+                    <option value="42022">4ый квартал 2022г.</option>
+                    <option value="12023">1ый квартал 2023г.</option>
+                    <option value="22023" selected>2ой квартал 2023г.</option>
+                    <option value="32023">3ий квартал 2023г.</option>
+                    <option value="42023">4ый квартал 2023г.</option>
+                    <option value="12024">1ый квартал 2024г.</option>
+                    <option value="22024">2ой квартал 2024г.</option>
+                    <option value="32024">3ий квартал 2024г.</option>
+                    <option value="42024">4ый квартал 2024г.</option>
+                </select>
+            </div>
+        </div>    
         <p>
-            <input name="resorces_list" type="file" required>
-        </p>
-        <p>
-            <input type="radio" id="Choice1" name="search_renge" value="All" />
-            <label for="Choice1">Показать всех найденых и не найденых поставщиков</label>
-        </p>
-        <p>
-            <input type="radio" id="Choice2" name="search_renge" value="Found" checked/>
-            <label for="Choice2">Показать только найденых поставщиков для ресурсов из файла</label>
-        </p>
-        <p>
-            <input type="radio" id="Choice3" name="search_renge" value="NotFound" />
-            <label for="Choice3">Показать только те ресурсы, для которых не найдены поставщики</label>
-        </p>
-        <p>
-            <label for="periods">Расчетный период: </label>
-            <select name="period" id="periods">
-                <option value="All">Все</option>
-                <option value="12022">1ый квартал 2022г.</option>
-                <option value="22022">2ый квартал 2022г.</option>
-                <option value="32022">3ый квартал 2022г.</option>
-                <option value="42022">4ый квартал 2022г.</option>
-                <option value="12023">1ый квартал 2023г.</option>
-                <option value="22023">2ый квартал 2023г.</option>
-                <option value="32023">3ый квартал 2023г.</option>
-                <option value="42023">4ый квартал 2023г.</option>
-                <option value="12024">1ый квартал 2024г.</option>
-                <option value="22024">2ый квартал 2024г.</option>
-                <option value="32024">3ый квартал 2024г.</option>
-                <option value="42024">4ый квартал 2024г.</option>
-            </select>
-        </p>
-        <p>
-            <input type="submit" value="Отправить">
+            <button class="submit">Отправить</button>
+            <!-- <input type="submit" value="Отправить"> -->
         </p>
     </form>
 </div>

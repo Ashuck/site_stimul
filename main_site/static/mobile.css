@@ -9,6 +9,9 @@
     .about_p {
         font-size: 1em;
     }
+    .about > ul {
+        font-size: 1em;
+    }
     .nav-elems {
         display: none;
     }

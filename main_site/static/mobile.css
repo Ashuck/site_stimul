@@ -2,6 +2,13 @@
     /* * {
         font-size: 1.01em;
     } */
+    h1 {
+        font-size: 1.2em;
+        /* margin-top: 30px; */
+    }
+    .about_p {
+        font-size: 1em;
+    }
     .nav-elems {
         display: none;
     }

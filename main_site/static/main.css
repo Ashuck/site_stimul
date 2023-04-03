@@ -302,7 +302,8 @@ nav > div {
     top:0px;
     left: 0px;
     display: table;
-    text-align: center
+    text-align: center;
+    z-index: 1000;
 }
 
 .popup_wrapper {

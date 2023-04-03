@@ -34,14 +34,74 @@
 </div>
 <div class="partners">
     <h1>Наши партнеры</h1>
-    <div class="partner_list">
-        {% for partner in partners %}
-        <a href="{{ partner.site_url }}">
-            <div class="partner">
-                <img src="{{ partner.logo.url }}" alt="{{ partner.title }}">
+    {% load loop_workers %}
+    <div class="desktop itcss-partners">
+        <div class="itcss__wrapper">
+            <div class="itcss__items" onclick="slider_partners.next()">
+                {% for partner_pack in partners|get_pack:3 %}
+                    <div class="itcss__item">
+                    {% for partner in partner_pack %}
+                        
+                            <a href="{{ partner.site_url }}">
+                                <div class="partner">
+                                    <img src="{{ partner.logo.url }}" alt="{{ partner.title }}">
+                                </div>
+                            </a>
+                        
+                    {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
-        </a>
-        {% endfor %}
+        </div>
+        <!-- Стрелки для перехода к предыдущему и следующему слайду -->
+        <!-- <a class="slider__control slider__control_prev" onclick="slider_partners.prev()"><span>&lt;</span></a>
+        <a class="slider__control slider__control_next" onclick="slider_partners.next()"><span>&gt;</span></a> -->
+        <script>
+            var slider_partners;
+            document.addEventListener('DOMContentLoaded', () => {
+                slider_partners =  new ItcSimpleSlider('.itcss-partners', {
+                loop: true,
+                autoplay: true,
+                interval: 2000,
+                // swipe: true,
+                });
+                
+            });
+        </script>
+    </div>
+    <div id="mobile-slider" class="mobile-slider itcss-partners">
+        <div class="itcss__wrapper">
+            <div class="itcss__items" onclick="slider_partners_mobile.next()">
+                {% for partner_pack in partners|get_pack:1 %}
+                    <div class="itcss__item">
+                    {% for partner in partner_pack %}
+                        
+                            <a href="{{ partner.site_url }}">
+                                <div class="partner">
+                                    <img src="{{ partner.logo.url }}" alt="{{ partner.title }}">
+                                </div>
+                            </a>
+                        
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Стрелки для перехода к предыдущему и следующему слайду -->
+        <!-- <a class="slider__control slider__control_prev" onclick="slider_partners_mobile.prev()"><span>&lt;</span></a>
+        <a class="slider__control slider__control_next" onclick="slider_partners_mobile.next()"><span>&gt;</span></a> -->
+        <script>
+            var slider_partners_mobile;
+            document.addEventListener('DOMContentLoaded', () => {
+                slider_partners_mobile =  new ItcSimpleSlider('#mobile-slider', {
+                loop: true,
+                autoplay: true,
+                interval: 2000,
+                // swipe: true,
+                });
+                
+            });
+        </script>
     </div>
 </div>   
 

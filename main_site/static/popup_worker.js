@@ -1,6 +1,11 @@
 function showFeedback(){
     let popupLaer = document.getElementById("popup");
     popupLaer.classList.remove("hide");
+    let mobile_menu = document.getElementById("mobile-menu-content");
+    if (!mobile_menu.classList.contains("hide")) {
+        mobile_menu.classList.add('hide');
+        
+    } 
 };
 function hideFeedback(){
     let popupLaer = document.getElementById("popup");

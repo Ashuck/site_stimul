@@ -9,7 +9,7 @@
     display: inline;
 }
 
-.mobile {
+.mobile, .mobile-slider {
     display: none;
 }
 
@@ -26,8 +26,8 @@ h1 {
 
 .about_p {
     font-size: 1.3em;
-    text-indent: 30px;
-    margin-top: 10px;
+    /* text-indent: 30px; */
+    /* margin-top: 10px; */
 }
 
 a {
@@ -186,14 +186,15 @@ nav > div {
 }
 
 .about > ul {
-    margin-left: 60px;
+    /* margin-left: 60px; */
     font-size: 1.3em;
-    padding-inline-start: 0px;
+    list-style-position: inside;
+    /* padding-inline-start: 0px; */
 }
 
-.about > ul > li {
+/* .about > ul > li {
     margin-top: 15px;
-}
+} */
 
 .partners {
     margin-bottom: 60px

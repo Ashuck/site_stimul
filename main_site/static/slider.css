@@ -5,7 +5,7 @@
   */
 
 /* стили для корневого элемента слайдера */
-.itcss {
+.itcss, .itcss-partners {
     position: relative;
     max-width: 90%;
     margin-right: auto;
@@ -168,4 +168,35 @@
     background: rgba(0,0,0,.3);
     opacity: .5;
     user-select: none;
+}
+
+
+/* Для слайдера партнеров */
+.itcss-partners .itcss__wrapper {
+  background-color: #eeeeee00;
+}
+.mobile-slider .itcss__wrapper {
+margin: 0 auto;
+width: 250px;
+}
+.itcss-partners .slider__control {
+  height: 60%;
+  display: table;
+
+}
+.slider__control span {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  text-align: center;
+}
+.itcss-partners {
+  /* display: block; */
+  width: 75%;
+}
+.itcss-partners .itcss__item {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  align-items: center;
 }

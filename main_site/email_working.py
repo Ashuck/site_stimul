@@ -4,11 +4,9 @@ from email.mime.text import MIMEText
 from stimul.settings import EMAIL_HOST, EMAIL_HOST_USER, EMAIL_PASSWORD, DEFAULT_TO_EMAIL
 
 
-def send_mail(text):
+def send_mail(text, subject):
     server = EMAIL_HOST
-
     sender = EMAIL_HOST_USER
-    subject = 'Обратная связь КОС'
 
     msg = MIMEMultipart()
     msg['Subject'] = subject

@@ -36,7 +36,7 @@
                         <a href="/services">Услуги</a>
                     </li>
                     <li class="nav-element">
-                        <a onclick="showFeedback()" href="#">Обратная связь</a>
+                        <a id="popup-1" onclick="switchElement(this, '-feedback')" href="#">Обратная связь</a>
                     </li>
                     <li class="nav-element">
                         <a href="/suppliers">Поставщики</a>
@@ -66,7 +66,7 @@
                     <a href="/services">Услуги</a>
                 </li>
                 <li class="nav-element">
-                    <a onclick="showFeedback()" href="#">Обратная связь</a>
+                    <a id="popup-1" onclick="switchElement(this, '-feedback')" href="#">Обратная связь</a>
                 </li>
                 <li class="nav-element">
                     <a href="/suppliers">Поставщики</a>
@@ -128,7 +128,7 @@
                             <a href="/services">Услуги</a>
                         </li>
                         <li class="nav-element">
-                            <a onclick="showFeedback()" href="#">Обратная связь</a>
+                            <a id="popup-1" onclick="switchElement(this, '-feedback')" href="#">Обратная связь</a>
                         </li>
                         <li class="nav-element">
                             <a href="/suppliers">Поставщики</a>
@@ -141,7 +141,7 @@
         
   
     </div>
-    <div id="popup" class="popup hide">
+    <div id="popup-1-feedback" class="popup hide">
         <div class="popup_wrapper">
             <div class="popup_content">
                 <h1>Оставьте свои контактные данные:</h1>
@@ -173,14 +173,14 @@
                         <input type="email" name="email" maxlength="254" required="" id="id_email">
                     </p>
                     <p class="buttons_form">
-                        <button type="button" onclick="hideFeedback()" class="cancel">Закрыть</button>
-                        <button type="button" onclick="sendFeedback()" class="submit">Отправить</button>
+                        <button type="button" id="popup-1" onclick="switchElement(this, '-feedback')" class="cancel">Закрыть</button>
+                        <button type="button" id="popup-1" onclick="sendFeedback(this, '-feedback')" class="submit">Отправить</button>
                     </p>
                 </form>
             </div>
         </div>
     </div>
-    <script type="text/javascript" language="javascript" src="{% static 'popup_worker.js' %}"></script>
+    <!-- <script type="text/javascript" language="javascript" src="{% static 'popup_worker.js' %}"></script> -->
     <script type="text/javascript" language="javascript" src="{% static 'switchElement.js' %}"></script>
 </body>
 

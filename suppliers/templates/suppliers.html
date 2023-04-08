@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 <!-- <a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a> -->
 
 <h1>Реестр поставщиков</h1>
 
 
-{% if suppliers_list %}
+
 <div class="suppliers-space">
     <div class="supplier-list">
+    {% if suppliers_list %}
         {% for supplier in suppliers_list %}
         <div class="supplier-card">
             <div class="name-container" id="{{ supplier.id }}" onclick="switchElement(this, '-detail')">
@@ -37,6 +39,9 @@
         </div>
         
         {% endfor %}
+    {% else %}
+    <div>Ничего не найдено</div>
+    {% endif %}
     </div>
     <div class="supplier-filters">
         <h2>Криетрии поиска</h2>
@@ -46,21 +51,30 @@
                 <label for="search">Поиск по названию или ИНН:</label>
             </p>
             <p>
-                <input id="serach" name="search" type="text">
+                <input id="serach" name="search" type="text" value="{{ search }}">
             </p>
+            <h3>Дополнительные критерии:</h3>
             <p>
-                <input type="checkbox" name="fromrrp" id="fromrrp">
+                <input type="checkbox" name="from_rrp" id="fromrrp" {% if from_rrp %}checked{% endif %}>
                 <label for="fromrrp">Только рекомендованные</label>
             </p>
+            <h4>Регион:</h4>
+            {% for region in regions %}
+            <p>
+                <input type="checkbox" name="region" id="reg-{{ region.pk }}" value="{{ region.pk }}" 
+                {% if region.pk in selected_regions %}checked{% endif %}>
+                <label for="reg-{{ region.pk }}">{{ region.title }}</label>
+            </p>
+            {% endfor %}
             <p>
                 <button class="submit">Искать</button>
             </p>
             
         </form>
-        <h3>Поиск по РВ или ЛСР:</h3>
-        <div class="info">
+        <h3>Поиск по ресурсной ведомости или локальная смета<a id="info" onclick="switchElement(this, '-detail')" href="#"><img class="info-img" src="{% static 'pic/info.svg' %}" alt=""></a>:</h3>
+        <!-- <div class="info">
             <a id="info" onclick="switchElement(this, '-detail')" href="#">Информация об услуге ></a>
-        </div>
+        </div> -->
         <div class="popup hide" id="info-detail">
             <div class="popup_wrapper">
                 <div class="popup_content">
@@ -69,7 +83,7 @@
                             Сервис предназначен для подбора поставщиков ресурсов, из числа поставщиков, производителей и импортеров, подающих или по которым подаются в Федеральную государственную информационную систему ценообразования в строительстве сведения об отпускных ценах материалов, изделий, конструкций, оборудования, произведенных в России или ввезенных в страну. Такие поставщики, производители и импортеры представлены в информационной системе «Стимул».
                         </div>
                         <div class="info_detail">
-                            Подбор осуществляется путем загрузки на данной странице ведомости ресурсов или локального сметного расчета в формате MS Excel (XLS, XLSX), рассчитанного ресурсно-индексным методом на ФСНБ-2022. Сервис произведет поиск имеющихся в загруженном файле материалов, изделий, конструкций и оборудования в информационной системе «Стимул» по кодам данных ресурсов. Для найденных ресурсов вам будут представлены поставщики.
+                            Подбор осуществляется путем загрузки на данной странице ведомости ресурсов или локальной сметы в формате MS Excel (XLS, XLSX), рассчитанного ресурсно-индексным методом на ФСНБ-2022. Сервис произведет поиск имеющихся в загруженном файле материалов, изделий, конструкций и оборудования в информационной системе «Стимул» по кодам данных ресурсов. Для найденных ресурсов вам будут представлены поставщики.
                         </div>
                         <div class="info_detail">
                             Отметьте интересующих вас поставщиков и сервис автоматически сформирует и отправит запрос ценовых предложений по электронной почте к указанным поставщикам. (В разработке)
@@ -136,9 +150,6 @@
         </div>
     </div>
 </div>
-{% else %}
-    <div>Ничего не найдено</div>
-{% endif %}
 <div class="mobile-filter mobile">
     <!-- <button id="filter" type="button" onclick="switchElement(this, '-mobile')">Фильтр</button> -->
     <div id="filter-mobile" >
@@ -148,12 +159,21 @@
                 <label for="search">Поиск по названию или ИНН:</label>
             </p>
             <p>
-                <input id="serach" name="search" type="text">
+                <input id="serach" name="search" type="text" value="{{ search }}">
             </p>
+            <h3>Дополнительные критерии:</h3>
             <p>
-                <input type="checkbox" name="fromrrp" id="fromrrp">
+                <input type="checkbox" name="from_rrp" id="fromrrp" {% if from_rrp %}checked{% endif %}>
                 <label for="fromrrp">Только рекомендованные</label>
             </p>
+            <h4>Регион:</h4>
+            {% for region in regions %}
+            <p>
+                <input type="checkbox" name="region" id="reg-{{ region.pk }}" value="{{ region.pk }}" 
+                {% if region.pk in selected_regions %}checked{% endif %}>
+                <label for="reg-{{ region.pk }}">{{ region.title }}</label>
+            </p>
+            {% endfor %}
             <p>
                 <button class="submit">Искать</button>
             </p>

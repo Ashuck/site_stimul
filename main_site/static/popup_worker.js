@@ -11,7 +11,7 @@ function hideFeedback(){
     let popupLaer = document.getElementById("popup");
     popupLaer.classList.add("hide");
 };
-async function sendFeedback(){
+async function sendFeedback(e){
     const url = "/feedback"
     let formElement = document.getElementById("feedbackData");
     let statusbar = document.getElementById("status");

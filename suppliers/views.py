@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from suppliers.models import Suppliers, FileForSearch
+from suppliers.models import Suppliers, FileForSearch, Regions
 from json import loads
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -7,15 +7,30 @@ from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 
 
-def get_suppliers(request):
+def get_suppliers(request: HttpRequest):
     part_name = request.GET.get("search", "")
-    contxt = {
-        "suppliers_list":Suppliers.objects.filter(
+    from_rrp = request.GET.get("from_rrp")
+    region_codes = list(map(int, request.GET.getlist("region")))
+    supplier_list = Suppliers.objects.all()
+
+    if part_name:
+        supplier_list = supplier_list.filter(
             Q(title__contains=part_name) |
             Q(full_title__contains=part_name) |
             Q(INN__contains=part_name) |
             Q(OGRN__contains=part_name)
         )
+    if from_rrp:
+        supplier_list = supplier_list.filter(fromrrp=True)
+    if region_codes:
+        supplier_list = supplier_list.filter(region__in=region_codes)
+    
+    contxt = {
+        "suppliers_list": supplier_list,
+        "regions": Regions.objects.all(),
+        "selected_regions": region_codes,
+        "from_rrp": from_rrp,
+        "search": part_name
     }
     return render(request, 'suppliers.html', contxt)
 
@@ -38,6 +53,11 @@ def sync_suppliers(request):
         supplier.email = supplier_data["email"]
         supplier.phone = supplier_data["phone"]
         supplier.fromrrp = supplier_data["fromrrp"]
+        region, _ = Regions.objects.get_or_create(
+            reg_code=supplier_data["region"]["code"],
+            title=supplier_data["region"]["title"]
+        )
+        supplier.region = region
         supplier.save()
 
         # Добавляем ИНН в список, из таблицы будут удалены поставщики, которых нет в списке
@@ -77,11 +97,7 @@ def search_suppliers(request: HttpRequest):
             "Range": request.POST.get("search_renge", "Found"),
             "Period": request.POST.get("period", "All")
         }
-        # fake_params = {
-        #     "File": r"\\SRV-1C-DEV\files_mcp_om\Вед. ресурсов 7 граф.xlsx",
-        #     "HashMD5": md5_hash,
-        #     "Range": "All"
-        # }
+        
         answer = get_data(
             "http://192.168.220.8/mcp_om/ws/stimdataexchange.1cws",
             "GetSuppliersResources",
@@ -97,8 +113,6 @@ def search_suppliers(request: HttpRequest):
             result["res_total"] = soap.find("contractorresquantity").get_text(strip=True)
             result["sup_found"] = soap.find("suppliersquantity").get_text(strip=True)
             result["resources"] = []
-
-
 
             for resource in soap.find_all("resourcecontractor"):
                 res = {}

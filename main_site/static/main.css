@@ -559,3 +559,9 @@ th, td {
     color: rgba(25, 47, 83);
     border-radius: 7px;
 }
+
+.info-img {
+    height: 1.1em;
+    width: 1.1em;
+    vertical-align: middle;
+}

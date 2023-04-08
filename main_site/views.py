@@ -46,7 +46,8 @@ def take_contacts(request):
         # form.save()
         
         send_mail(
-            "Заявка от {fio}\nОрганизация: {firm_name}\nКонтакты: {phone}, {email}".format(**form.cleaned_data)
+            "Заявка от {fio}\nОрганизация: {firm_name}\nКонтакты: {phone}, {email}".format(**form.cleaned_data),
+            'Обратная связь КОС'
         )
     else:
         response_data["status"] = "error"

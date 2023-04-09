@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from suppliers.models import Suppliers, FileForSearch, Regions
 from json import loads
 from django.http import JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
+from collections import defaultdict
 
+from for_1C_tools import get_xml_content
 
 def get_suppliers(request: HttpRequest):
     part_name = request.GET.get("search", "")
@@ -112,6 +114,8 @@ def search_suppliers(request: HttpRequest):
             
             result["res_total"] = soap.find("contractorresquantity").get_text(strip=True)
             result["sup_found"] = soap.find("suppliersquantity").get_text(strip=True)
+            result['docdate'] = soap.find("docdate").get_text(strip=True)
+            result['docnumber'] = soap.find("docnumber").get_text(strip=True)
             result["resources"] = []
 
             for resource in soap.find_all("resourcecontractor"):
@@ -131,3 +135,57 @@ def search_suppliers(request: HttpRequest):
         contxt["result"] = result
 
     return render(request, 'search_suppliers.html', contxt)
+
+
+def send_resource_request(request: HttpRequest):
+    if request.method == "POST":
+        suppliers = defaultdict(lambda: [])
+        for res_code, inn_sup in map(lambda x: x.split('|-|'), request.POST.getlist('ch')):
+            suppliers[inn_sup].append(res_code)
+        
+        params = {}
+        attributes = {}
+        params['ContractorId'] = "Аноним"
+        params['ContractorData'] = "Иванов Иван"
+        attributes['DocDate'] = request.POST["docdate"]
+        attributes['DocNumber'] = request.POST["docnumber"]
+        params["RequestText"] = request.POST.get("comment")
+        params["ContractorEmail"] = request.POST.get("req-email")
+        for inn_sup, res_codes in suppliers.items():
+            params[inn_sup] = {
+                'tag_name': 'Supplier',
+                'attributies': {
+                    'inn': inn_sup
+                },
+                'value': {
+                    'Resources' : {
+                        'value': {
+                            rc: val for rc, val in prepare_res(res_codes)
+                        },  
+                    }   
+                }
+            }
+        # print(params)
+        
+        answer = get_data(
+            "http://192.168.220.8/mcp_om/ws/stimdataexchange.1cws",
+            "SetRequestContractor",
+            params,
+            attributes=attributes
+        )
+        soap = BeautifulSoup(answer, features="lxml")
+        print(soap.prettify())
+    return redirect('suppliers')
+
+
+def prepare_res(resources):
+    for res_code in resources:
+        tmp = {
+            'tag_name': 'Res',
+            'attributies': {
+                'ResCode': res_code,
+                "Comment": ""
+            },
+            "value": ""            
+        }
+        yield res_code, tmp

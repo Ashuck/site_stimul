@@ -77,13 +77,15 @@
 
 {% if result.status == '200' %}
 <h1>Результаты поиска</h1>
-<div>имя файла: {{ result.file_name }}</div>
+<div>Имя файла: {{ result.file_name }}</div>
 <div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
 <div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
 <h2>Список ресурсов:</h2>
-<form enctype="multipart/form-data" method="post">
+<form action="/suppliers/send_request" enctype="multipart/form-data" method="post">
     {% csrf_token %}
-    <table>
+    <input type="hidden" name="docnumber" value="{{ result.docnumber }}">
+    <input type="hidden" name="docdate" value="{{ result.docdate }}">
+    <table class="suppliers-result">
         <tr>
             <th>-</th>
             <th>Название</th>
@@ -100,10 +102,15 @@
                 <tr>
                     <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
                 </tr>
+                <tr class="clickable">
+                    <td colspan="6" class="table_status" id="{{ resource.code_orig }}" onclick="SelectAll(this)">
+                        Выбрать все
+                    </td> 
+                </tr>
                 {% for supplier in resource.suppliers %}
-                    <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)">
+                    <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)" class="clickable">
                         <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" value="{{ resource.code_orig }}|-|{{ supplier.inn }}"></td>
-                        <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/>(Рекомендованный поставщик){% endif %}</label></th>
+                        <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/><span class="in-rrp">Рекомендованный</span>{% endif %}</label></th>
                         <td>{{ supplier.price_zone }}</td>
                         <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
                         <td class="table_address">{{ supplier.addresslegal }}</td>
@@ -121,9 +128,20 @@
             </tr>
         {% endfor %}   
     </table>
-    <!-- <p>
-        <input type="submit" value="Отправить">
-    </p> -->
+    <h2>Обратиться к выбранным поставщикам</h2>
+    <p>
+        <label for="email">Укажите Ваш email: </label>
+        <input type="email" name="req-email" id="email" required>
+    </p>
+    <p>
+        Комментарий к обращению:
+    </p>
+    <p>
+        <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+    </p>
+    <p>
+        <button type="submit" class="submit">Отправить</button>
+    </p>
 </form>
 <script>
     function switchInput(e){
@@ -137,6 +155,15 @@
         };
         
     };
+    function SelectAll(e){
+        let table_rows = document.querySelectorAll('[id^="row-' + e.id + '-"]');
+        table_rows.forEach((table_row) => {
+            let check_box = table_row.querySelectorAll('[id^="' + e.id + '-"]')[0];
+            if (!check_box.getAttribute("checked")){
+                switchInput(table_row);
+            };
+        });
+    }
 </script>
 {% else %}
     <h2>{{ result.error_text }}</h2>

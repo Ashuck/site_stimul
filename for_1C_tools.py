@@ -29,10 +29,13 @@ def set_attrs(param, attrs):
         param[attr_key] = attr_val
     return param
 
-def get_xml_content(tag_name, data: dict, preffix="ws:") -> BeautifulSoup:
+def get_xml_content(tag_name, data: dict, preffix="ws:", attributes=None) -> BeautifulSoup:
     # создаем корневой тэг
     soup = BeautifulSoup()
     method = soup.new_tag(preffix + tag_name)
+    
+    if attributes:
+        method = set_attrs(method, attributes)
     # перебираем параметры внутри тэга
     for key, value in data.items():
         if isinstance(value, dict):
@@ -58,13 +61,16 @@ def get_xml_content(tag_name, data: dict, preffix="ws:") -> BeautifulSoup:
             method.append(param)
     return method
 
+from base64 import b64encode, b64decode
+def get_data(url, method_name, params, preffix="ws:", attributes=None):
+    method = get_xml_content(method_name, params, preffix, attributes)
+    # m = b64encode(str(method).encode()).decode()
 
-def get_data(url, method_name, params):
-    method = get_xml_content(method_name, params)
-    xml =  str(wrap_xml(method))
-    print(xml)
-    xml = xml.encode()
-    
+    xml =  wrap_xml(method)
+    # xml =  wrap_xml(m)
+    print(xml.prettify())
+    xml = str(xml).encode()
+    # xml = b64encode(xml)
     result = requests.post(url, data=xml, auth=("StimDataExchange", "Cntgfirf2"))
     result = result.text.replace('&lt;', '<')
     result = result.replace('&gt;', '>')

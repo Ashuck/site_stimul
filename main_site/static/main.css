@@ -5,6 +5,10 @@
     text-align: justify;
 }
 
+form p {
+    margin-bottom: 10px;
+}
+
 .desktop {
     display: inline;
 }
@@ -29,6 +33,11 @@ h1 {
     font-size: 1.3em;
     /* text-indent: 30px; */
     /* margin-top: 10px; */
+}
+
+.clickable:hover {
+    cursor: pointer;
+    background-color: rgba(66, 98, 149, 0.068);
 }
 
 a {
@@ -496,8 +505,8 @@ th, td {
     max-width: 550px;
 }
 
-.selected_row {
-    background-color: rgba(66, 98, 149, 0.068);
+.selected_row.clickable:hover, .selected_row {
+    background-color: rgba(66, 98, 149, 0.319);
 }
 
 .search_suppliers {
@@ -565,3 +574,8 @@ th, td {
     width: 1.1em;
     vertical-align: middle;
 }
+
+.suppliers-result {
+    margin-bottom: 30px;
+}
+

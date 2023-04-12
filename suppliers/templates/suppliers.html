@@ -44,8 +44,8 @@
     {% endif %}
     </div>
     <div class="supplier-filters">
-        <h2>Криетрии поиска</h2>
-        <h3>Поиск по реестру:</h3>
+        <button class="supp_request" id="popup-1" onclick="switchElement(this, '-feedback')">Стать поставщиком</button>
+        <h2>Поиск по реестру:</h2>
         <form action="">
             <p>
                 <label for="search">Поиск по названию или ИНН:</label>
@@ -59,13 +59,16 @@
                 <label for="fromrrp">Только рекомендованные</label>
             </p>
             <h4>Регион:</h4>
-            {% for region in regions %}
+            
             <p>
-                <input type="checkbox" name="region" id="reg-{{ region.pk }}" value="{{ region.pk }}" 
-                {% if region.pk in selected_regions %}checked{% endif %}>
-                <label for="reg-{{ region.pk }}">{{ region.title }}</label>
+                <select name="region" id="search_range">
+                    <option value="-1">Все регионы</option>
+                    {% for region in regions %}
+                    <option value="{{ region.pk }}" {% if region.pk == selected_region %}selected{% endif %}>{{ region.title }}</option>
+                    {% endfor %}
+                </select>
             </p>
-            {% endfor %}
+            
             <p>
                 <button class="submit">Искать</button>
             </p>
@@ -123,7 +126,7 @@
                 </p>
                     
                 <p>
-                    <label for="periods">Расчетный период: </label>
+                    <label for="periods">Отчетный период: </label>
                 </p>
                 <p>
                     <select name="period" id="periods">
@@ -153,7 +156,8 @@
 <div class="mobile-filter mobile">
     <!-- <button id="filter" type="button" onclick="switchElement(this, '-mobile')">Фильтр</button> -->
     <div id="filter-mobile" >
-        <h3>Поиск по реестру:</h3>
+        <button class="supp_request" id="popup-1" onclick="switchElement(this, '-feedback')">Стать поставщиком</button>
+        <h2>Поиск по реестру:</h2>
         <form action="">
             <p>
                 <label for="search">Поиск по названию или ИНН:</label>
@@ -167,13 +171,16 @@
                 <label for="fromrrp">Только рекомендованные</label>
             </p>
             <h4>Регион:</h4>
-            {% for region in regions %}
+
             <p>
-                <input type="checkbox" name="region" id="reg-{{ region.pk }}" value="{{ region.pk }}" 
-                {% if region.pk in selected_regions %}checked{% endif %}>
-                <label for="reg-{{ region.pk }}">{{ region.title }}</label>
+                <select name="region" id="search_range">
+                    <option value="-1">Все регионы</option>
+                    {% for region in regions %}
+                    <option value="{{ region.pk }}" {% if region.pk == selected_region %}selected{% endif %}>{{ region.title }}</option>
+                    {% endfor %}
+                </select>
             </p>
-            {% endfor %}
+
             <p>
                 <button class="submit">Искать</button>
             </p>

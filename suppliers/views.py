@@ -12,7 +12,7 @@ from for_1C_tools import get_xml_content
 def get_suppliers(request: HttpRequest):
     part_name = request.GET.get("search", "")
     from_rrp = request.GET.get("from_rrp")
-    region_codes = list(map(int, request.GET.getlist("region")))
+    region_code = int(request.GET.get("region"))
     supplier_list = Suppliers.objects.all()
 
     if part_name:
@@ -24,13 +24,13 @@ def get_suppliers(request: HttpRequest):
         )
     if from_rrp:
         supplier_list = supplier_list.filter(fromrrp=True)
-    if region_codes:
-        supplier_list = supplier_list.filter(region__in=region_codes)
+    if region_code and region_code != -1:
+        supplier_list = supplier_list.filter(region=region_code)
     
     contxt = {
         "suppliers_list": supplier_list,
         "regions": Regions.objects.all(),
-        "selected_regions": region_codes,
+        "selected_region": region_code,
         "from_rrp": from_rrp,
         "search": part_name
     }

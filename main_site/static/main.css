@@ -375,6 +375,14 @@ button, .as-btn {
     background-color: rgb(30, 68, 129);
 }
 
+.supp_request {
+    font-size: 1.3em;
+    margin: 10px;
+    padding: 7px;
+    width: 280px;
+    text-align: center;
+}
+
 .cancel {
     background-color: brown;
     

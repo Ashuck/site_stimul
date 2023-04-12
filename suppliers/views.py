@@ -12,7 +12,7 @@ from for_1C_tools import get_xml_content
 def get_suppliers(request: HttpRequest):
     part_name = request.GET.get("search", "")
     from_rrp = request.GET.get("from_rrp")
-    region_code = int(request.GET.get("region"))
+    region_code = int(request.GET.get("region", -1))
     supplier_list = Suppliers.objects.all()
 
     if part_name:

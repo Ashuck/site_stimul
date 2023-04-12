@@ -375,12 +375,19 @@ button, .as-btn {
     background-color: rgb(30, 68, 129);
 }
 
+.header_supp {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
 .supp_request {
     font-size: 1.3em;
     margin: 10px;
     padding: 7px;
-    width: 280px;
+    width: 310px;
     text-align: center;
+    background-color: rgb(0, 180, 0);
 }
 
 .cancel {

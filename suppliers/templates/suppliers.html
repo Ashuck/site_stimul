@@ -4,9 +4,10 @@
 
 <!-- <a href="/suppliers/search"><h1>Поиск по РВ или ЛСР ></h1></a> -->
 
-<h1>Реестр поставщиков</h1>
-
-
+<div class="header_supp">
+    <h1>Реестр поставщиков</h1>
+    <button class="supp_request" id="popup-1" onclick="switchElement(this, '-feedback')">Стать рекомендованным поставщиком</button>
+</div>
 
 <div class="suppliers-space">
     <div class="supplier-list">
@@ -44,7 +45,6 @@
     {% endif %}
     </div>
     <div class="supplier-filters">
-        <button class="supp_request" id="popup-1" onclick="switchElement(this, '-feedback')">Стать поставщиком</button>
         <h2>Поиск по реестру:</h2>
         <form action="">
             <p>
@@ -156,7 +156,7 @@
 <div class="mobile-filter mobile">
     <!-- <button id="filter" type="button" onclick="switchElement(this, '-mobile')">Фильтр</button> -->
     <div id="filter-mobile" >
-        <button class="supp_request" id="popup-1" onclick="switchElement(this, '-feedback')">Стать поставщиком</button>
+        
         <h2>Поиск по реестру:</h2>
         <form action="">
             <p>

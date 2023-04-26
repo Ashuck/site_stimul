@@ -40,6 +40,10 @@ h1 {
     background-color: rgba(66, 98, 149, 0.068);
 }
 
+.clickable {
+    text-align: center;
+}
+
 a {
     text-decoration: none;
 }
@@ -378,7 +382,6 @@ button, .as-btn {
 .header_supp {
     display: flex;
     justify-content: space-between;
-    
 }
 
 .supp_request {
@@ -501,10 +504,10 @@ table, th, td {
 }
 
 th, td {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 /* table suppliers */
@@ -512,8 +515,12 @@ th, td {
     width: 30px;
 }
 
-.table_status, .table_resource_name {
+/* .table_status {
     text-align: left;
+} */
+.table_resource_name {
+    vertical-align: middle;
+    font-size: 1.2em;
 }
 
 .table_address {

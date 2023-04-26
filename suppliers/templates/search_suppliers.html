@@ -88,43 +88,44 @@
     <table class="suppliers-result">
         <tr>
             <th>-</th>
-            <th>Название</th>
+            <th>Поставщик</th>
             <th>Ценовой регион</th>
             <th>ИНН/ОГРН</th>
-            <th>Адрес</th>
+            <!-- <th>Адрес</th> -->
             <th>Контакты</th>
         </tr>
         {% for resource in result.resources %}
-            <tr>
+            <!-- <tr>
                 <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
-            </tr>
+            </tr> -->
             {% if resource.suppliers %}
-                <tr>
+                <!-- <tr>
                     <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
-                </tr>
-                <tr class="clickable">
-                    <td colspan="6" class="table_status" id="{{ resource.code_orig }}" onclick="SelectAll(this)">
+                </tr> -->
+                <tr>
+                    <td class="table_status clickable" id="{{ resource.code_orig }}" onclick="SelectAll(this)">
                         Выбрать все
-                    </td> 
+                    </td>
+                    <th colspan="4" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
                 </tr>
                 {% for supplier in resource.suppliers %}
                     <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)" class="clickable">
                         <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" value="{{ resource.code_orig }}|-|{{ supplier.inn }}"></td>
                         <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/><span class="in-rrp">Рекомендованный</span>{% endif %}</label></th>
                         <td>{{ supplier.price_zone }}</td>
-                        <td><p>{{ supplier.inn }}</p><p>{{ supplier.ogrn }}</p></td>
-                        <td class="table_address">{{ supplier.addresslegal }}</td>
-                        <td><p>{{ supplier.email }}</p><p>{{ supplier.phone }}</p></td>
+                        <td>{{ supplier.inn }} <br> {{ supplier.ogrn }}</td>
+                        <!-- <td class="table_address">{{ supplier.addresslegal }}</td> -->
+                        <td>{{ supplier.email }} <br><br> {{ supplier.phone }}</td>
 
                     </tr>
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="6" class="table_status">Поставщики не найдены</td> 
+                    <td colspan="5" class="table_status">Поставщики не найдены</td> 
                 </tr>
             {% endif %}
             <tr>
-                <th colspan="6"></th>
+                <th colspan="5"></th>
             </tr>
         {% endfor %}   
     </table>
@@ -133,12 +134,12 @@
         <label for="email">Укажите Ваш email: </label>
         <input type="email" name="req-email" id="email" required>
     </p>
-    <p>
+    <!-- <p>
         Комментарий к обращению:
     </p>
     <p>
         <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-    </p>
+    </p> -->
     <p>
         <button type="submit" class="submit">Отправить</button>
     </p>

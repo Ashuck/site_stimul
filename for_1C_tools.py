@@ -29,13 +29,18 @@ def set_attrs(param, attrs):
         param[attr_key] = attr_val
     return param
 
-def get_xml_content(tag_name, data: dict, preffix="ws:", attributes=None) -> BeautifulSoup:
+def get_xml_content(tag_name, data: dict | str, preffix="ws:", attributes=None) -> BeautifulSoup:
     # создаем корневой тэг
     soup = BeautifulSoup()
     method = soup.new_tag(preffix + tag_name)
     
     if attributes:
         method = set_attrs(method, attributes)
+    
+    if isinstance(data, str):
+        method.string = data
+        return method
+    
     # перебираем параметры внутри тэга
     for key, value in data.items():
         if isinstance(value, dict):

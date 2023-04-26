@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from collections import defaultdict
+import base64
 
 from for_1C_tools import get_xml_content
 
@@ -67,11 +68,18 @@ def sync_suppliers(request):
     
     Suppliers.objects.exclude(INN__in=suppliers_inn_list).delete()
     return JsonResponse({'status': "ok"})
+
+
+
 # Create your views here.
 import hashlib
 from for_1C_tools import get_data
 from bs4 import BeautifulSoup
 import os
+
+class SupplierDict(dict):
+    def __hash__(self) -> int:
+        return int(self["inn"])
 
 def search_suppliers(request: HttpRequest):
     contxt = {}
@@ -122,11 +130,12 @@ def search_suppliers(request: HttpRequest):
                 res = {}
                 res["code_orig"] = resource.find("rescodeoriginal").get_text(strip=True)
                 res["name"] = resource.find("resname").get_text(strip=True)
-                res["suppliers"] = []
+                res["suppliers"] = set()
                 for supplier in resource.find_all("contragent"):
                     supp = {i.name: i.text for i in supplier.children if i.name}
+                    supp = SupplierDict(supp)
                     supp["price_zone"] = resource.find("pricezone").get_text(strip=True)
-                    res["suppliers"].append(supp)
+                    res["suppliers"].add(supp)
                 result["resources"].append(res)
             
         else:
@@ -149,7 +158,7 @@ def send_resource_request(request: HttpRequest):
         params['ContractorData'] = "Иванов Иван"
         attributes['DocDate'] = request.POST["docdate"]
         attributes['DocNumber'] = request.POST["docnumber"]
-        params["RequestText"] = request.POST.get("comment")
+        params["RequestText"] = "" # request.POST.get("comment")
         params["ContractorEmail"] = request.POST.get("req-email")
         for inn_sup, res_codes in suppliers.items():
             params[inn_sup] = {
@@ -167,11 +176,20 @@ def send_resource_request(request: HttpRequest):
             }
         # print(params)
         
+        payload = get_xml_content("RequestContractor", params, preffix="", attributes=attributes)
+        
+        payload = '<?xml version="1.0" encoding="UTF-8" ?>\n' + payload.prettify()
+        print(payload)
+        payload = base64.b64encode(payload.encode()).decode()
+
+        payload = {
+            'RequestContractor': payload,
+        }
+
         answer = get_data(
             "http://192.168.220.8/mcp_om/ws/stimdataexchange.1cws",
             "SetRequestContractor",
-            params,
-            attributes=attributes
+            payload,
         )
         soap = BeautifulSoup(answer, features="lxml")
         print(soap.prettify())

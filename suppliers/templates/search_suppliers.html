@@ -15,6 +15,7 @@
         Отметьте интересующих вас поставщиков и сервис автоматически сформирует и отправит запрос ценовых предложений по электронной почте к указанным поставщикам. (В разработке)
     </div>
 </div>
+
 <div class="search_suppliers">
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
@@ -75,99 +76,106 @@
     </form>
 </div>
 
-{% if result.status == '200' %}
-<h1>Результаты поиска</h1>
-<div>Имя файла: {{ result.file_name }}</div>
-<div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
-<div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
-<h2>Список ресурсов:</h2>
-<form action="/suppliers/send_request" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="docnumber" value="{{ result.docnumber }}">
-    <input type="hidden" name="docdate" value="{{ result.docdate }}">
-    <table class="suppliers-result">
-        <tr>
-            <th>-</th>
-            <th>Поставщик</th>
-            <th>Ценовой регион</th>
-            <th>ИНН/ОГРН</th>
-            <!-- <th>Адрес</th> -->
-            <th>Контакты</th>
-        </tr>
-        {% for resource in result.resources %}
-            <!-- <tr>
-                <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
-            </tr> -->
-            {% if resource.suppliers %}
-                <!-- <tr>
-                    <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
-                </tr> -->
-                <tr>
-                    <td class="table_status clickable" id="{{ resource.code_orig }}" onclick="SelectAll(this)">
-                        Выбрать все
-                    </td>
-                    <th colspan="4" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
-                </tr>
-                {% for supplier in resource.suppliers %}
-                    <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)" class="clickable">
-                        <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" value="{{ resource.code_orig }}|-|{{ supplier.inn }}"></td>
-                        <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/><span class="in-rrp">Рекомендованный</span>{% endif %}</label></th>
-                        <td>{{ supplier.price_zone }}</td>
-                        <td>{{ supplier.inn }} <br> {{ supplier.ogrn }}</td>
-                        <!-- <td class="table_address">{{ supplier.addresslegal }}</td> -->
-                        <td>{{ supplier.email }} <br><br> {{ supplier.phone }}</td>
-
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="5" class="table_status">Поставщики не найдены</td> 
-                </tr>
-            {% endif %}
+{% if result %}
+    {% if result.status == '200' %}
+    <h1>Результаты поиска</h1>
+    <div>Имя файла: {{ result.file_name }}</div>
+    <div>Всего обнаружено ресурсов: {{ result.res_total }}</div>
+    <div>Количество поставщиков данных ресурсов: {{ result.sup_found }}</div>
+    <h2>Список ресурсов:</h2>
+    <form action="/suppliers/send_request" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="docnumber" value="{{ result.docnumber }}">
+        <input type="hidden" name="docdate" value="{{ result.docdate }}">
+        <table class="suppliers-result">
             <tr>
-                <th colspan="5"></th>
+                <th>-</th>
+                <th>Поставщик</th>
+                <th>Ценовой регион</th>
+                <th>ИНН/ОГРН</th>
+                <!-- <th>Адрес</th> -->
+                <th>Контакты</th>
             </tr>
-        {% endfor %}   
-    </table>
-    <h2>Обратиться к выбранным поставщикам</h2>
-    <p>
-        <label for="email">Укажите Ваш email: </label>
-        <input type="email" name="req-email" id="email" required>
-    </p>
-    <!-- <p>
-        Комментарий к обращению:
-    </p>
-    <p>
-        <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-    </p> -->
-    <p>
-        <button type="submit" class="submit">Отправить</button>
-    </p>
-</form>
-<script>
-    function switchInput(e){
-        let checkbox = document.getElementById(e.id.replace("row-", ""));
-        if (checkbox.getAttribute("checked")){
-            checkbox.removeAttribute("checked");
-            e.classList.remove("selected_row");
-        } else {
-            checkbox.setAttribute("checked", true);
-            e.classList.add("selected_row");
-        };
-        
-    };
-    function SelectAll(e){
-        let table_rows = document.querySelectorAll('[id^="row-' + e.id + '-"]');
-        table_rows.forEach((table_row) => {
-            let check_box = table_row.querySelectorAll('[id^="' + e.id + '-"]')[0];
-            if (!check_box.getAttribute("checked")){
-                switchInput(table_row);
-            };
-        });
-    }
-</script>
-{% else %}
-    <h2>{{ result.error_text }}</h2>
-{% endif %}
+            {% for resource in result.resources %}
+                <!-- <tr>
+                    <th colspan="6" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
+                </tr> -->
+                {% if resource.suppliers %}
+                    <!-- <tr>
+                        <td colspan="6" class="table_status">Поставщики данного ресурса:</td> 
+                    </tr> -->
+                    <tr>
+                        <td class="table_status clickable" id="{{ resource.code_orig }}" onclick="SelectAll(this)">
+                            Выбрать все
+                        </td>
+                        <th colspan="4" class="table_resource_name">{{ resource.code_orig }} - {{ resource.name }}</th>
+                    </tr>
+                    {% for supplier in resource.suppliers %}
+                        <tr id="row-{{ resource.code_orig }}-{{ supplier.inn }}" onclick="switchInput(this)" class="clickable">
+                            <td class="table_checkbox"><input type="checkbox" name="ch" id="{{ resource.code_orig }}-{{ supplier.inn }}" value="{{ resource.code_orig }}|-|{{ supplier.inn }}"></td>
+                            <th>{{ supplier.name }}{% if supplier.fromrrp == 'true' %}<br/><span class="in-rrp">Рекомендованный</span>{% endif %}</label></th>
+                            <td>{{ supplier.price_zone }}</td>
+                            <td>{{ supplier.inn }} <br> {{ supplier.ogrn }}</td>
+                            <!-- <td class="table_address">{{ supplier.addresslegal }}</td> -->
+                            <td>{{ supplier.email }} <br><br> {{ supplier.phone }}</td>
 
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="table_status">Поставщики не найдены</td> 
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th colspan="5"></th>
+                </tr>
+            {% endfor %}   
+        </table>
+        <h2>Обратиться к выбранным поставщикам</h2>
+        <p>
+            <label for="email">Укажите Ваш email: </label>
+            <input type="email" name="req-email" id="email" required>
+        </p>
+        <!-- <p>
+            Комментарий к обращению:
+        </p>
+        <p>
+            <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+        </p> -->
+        <p>
+            <button type="submit" class="submit">Отправить</button>
+        </p>
+    </form>
+    <script>
+        function switchInput(e){
+            let checkbox = document.getElementById(e.id.replace("row-", ""));
+            if (checkbox.getAttribute("checked")){
+                checkbox.removeAttribute("checked");
+                e.classList.remove("selected_row");
+            } else {
+                checkbox.setAttribute("checked", true);
+                e.classList.add("selected_row");
+            };
+            
+        };
+        function SelectAll(e){
+            let table_rows = document.querySelectorAll('[id^="row-' + e.id + '-"]');
+            table_rows.forEach((table_row) => {
+                let check_box = table_row.querySelectorAll('[id^="' + e.id + '-"]')[0];
+                if (!check_box.getAttribute("checked")){
+                    switchInput(table_row);
+                };
+            });
+        }
+    </script>
+    {% else %}
+        <h2>{{ result.error_text }}</h2>
+    {% endif %}
+{% else %}
+    {% if status == '200' %}
+        <h1>Запрос успешно отправлен</h1>
+    {% else %}
+        <h1>Ошибка обработки данных</h1>
+    {% endif %}
+{% endif %}
 {% endblock %}

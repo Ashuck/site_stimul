@@ -128,7 +128,9 @@ def search_suppliers(request: HttpRequest):
 
             for resource in soap.find_all("resourcecontractor"):
                 res = {}
+                
                 res["code_orig"] = resource.find("rescodeoriginal").get_text(strip=True)
+                
                 res["name"] = resource.find("resname").get_text(strip=True)
                 res["suppliers"] = set()
                 for supplier in resource.find_all("contragent"):
@@ -147,6 +149,7 @@ def search_suppliers(request: HttpRequest):
 
 
 def send_resource_request(request: HttpRequest):
+    contxt = {}
     if request.method == "POST":
         suppliers = defaultdict(lambda: [])
         for res_code, inn_sup in map(lambda x: x.split('|-|'), request.POST.getlist('ch')):
@@ -178,7 +181,7 @@ def send_resource_request(request: HttpRequest):
         
         payload = get_xml_content("RequestContractor", params, preffix="", attributes=attributes)
         
-        payload = '<?xml version="1.0" encoding="UTF-8" ?>\n' + payload.prettify()
+        payload = '<?xml version="1.0" encoding="UTF-8" ?>' + str(payload)
         print(payload)
         payload = base64.b64encode(payload.encode()).decode()
 
@@ -192,8 +195,10 @@ def send_resource_request(request: HttpRequest):
             payload,
         )
         soap = BeautifulSoup(answer, features="lxml")
-        print(soap.prettify())
-    return redirect('suppliers')
+        status = soap.find("statuscode").get_text(strip=True)
+        contxt["status"] = status
+    
+    return render(request, 'search_suppliers.html', contxt)
 
 
 def prepare_res(resources):

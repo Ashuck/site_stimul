@@ -1,11 +1,13 @@
 from bs4 import BeautifulSoup
 from sys import argv
+from pathlib import Path
 
 from for_1C_tools import get_data
 import requests
 
+path = Path(__file__).resolve().parent
 
-with open("regions.txt") as f:
+with open(path / "regions.txt") as f:
 
     regions = dict(i.strip().split(":") for i in f.readlines())
 

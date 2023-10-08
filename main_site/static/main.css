@@ -601,3 +601,28 @@ th, td {
     margin-bottom: 30px;
 }
 
+.pdn {
+    display: flex;
+    justify-self: start;
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 0.9em;
+}
+
+.pdn a {
+    color: brown;
+}
+
+.popup_content > form > p > .chkpdn {
+    width: 30px;
+    margin-right: 10px;
+}
+
+
+.feedbacksub {
+    background-color: grey;
+}
+
+.feedbacksub.active {
+    background-color: rgb(30, 68, 129);
+}

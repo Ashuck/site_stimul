@@ -172,9 +172,18 @@
                     <p class="about_p">
                         <input type="email" name="email" maxlength="254" required="" id="id_email">
                     </p>
+                    <p class="pdn" onclick="switchPdnBtn(this)">
+                        <input   type="checkbox" name="pdn" id="pdn" class="chkpdn">
+                        <label for="pdn">
+                            Нажмая кнопку "Отправить" Я даю
+                            <a href="/static/docs/Согласие ПД.pdf" class="clickable">согласие</a>
+                            на обработку персональных данных, определенных
+                            <a href="/static/docs/Политика конфиденциальности.pdf" class="clickable">"Политикой конфидициальности".</a>
+                        </label>
+                    </p>
                     <p class="buttons_form">
                         <button type="button" id="popup-1" onclick="switchElement(this, '-feedback')" class="cancel">Закрыть</button>
-                        <button type="button" id="popup-1" onclick="sendFeedback(this, '-feedback')" class="submit">Отправить</button>
+                        <button type="button" id="popup-1" onclick="sendFeedback(this, '-feedback')" class="submit feedbacksub">Отправить</button>
                     </p>
                 </form>
             </div>

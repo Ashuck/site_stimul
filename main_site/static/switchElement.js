@@ -10,7 +10,23 @@ function switchElement(e, suff){
     }
 };
 
+function switchPdnBtn(e) {
+    let pdnCheBox = document.getElementById("pdn");
+    let submitBtn = document.getElementsByClassName("feedbacksub")[0];
+    if (pdnCheBox.checked) {
+        submitBtn.classList.add('active');
+    } else {
+        submitBtn.classList.remove('active');
+    }
+}
+
+
 async function sendFeedback(e, suff){
+    let pdnCheBox = document.getElementById("pdn");
+    if (!pdnCheBox.checked) {
+        alert("Сначала необходимо дать согласие на обработку ПД")
+        return 0
+    }
     const url = "/feedback"
     let formElement = document.getElementById("feedbackData");
     let statusbar = document.getElementById("status");

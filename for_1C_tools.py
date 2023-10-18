@@ -73,7 +73,9 @@ def get_data(url, method_name, params, preffix="ws:", attributes=None):
 
     xml =  wrap_xml(method)
     # xml =  wrap_xml(m)
+    print('\n')
     print(xml.prettify())
+    print('\n')
     xml = str(xml).encode()
     # xml = b64encode(xml)
     result = requests.post(url, data=xml, auth=("StimDataExchange", "Cntgfirf2"))

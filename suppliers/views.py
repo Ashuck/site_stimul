@@ -113,6 +113,7 @@ def search_suppliers(request: HttpRequest):
             "GetSuppliersResources",
             params
         )
+        print(answer)
         soap = BeautifulSoup(answer, features="lxml")
         status = soap.find("statuscode").get_text(strip=True)
         result = {}

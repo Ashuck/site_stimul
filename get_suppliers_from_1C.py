@@ -43,6 +43,7 @@ for contragent in soap.find_all("contragent"):
     data.append(
         supp
     )
+    print(supp)
     # print()
     # print(regions.get(reg_code, ""))
     # print(data[-1])
